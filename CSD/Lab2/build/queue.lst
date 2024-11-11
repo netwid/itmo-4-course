@@ -1,0 +1,188 @@
+ARM GAS  /tmp/ccoQxhCQ.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"queue.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/queue.c"
+  20              		.section	.text.QueuePush,"ax",%progbits
+  21              		.align	1
+  22              		.global	QueuePush
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	QueuePush:
+  28              	.LVL0:
+  29              	.LFB0:
+   1:Core/Src/queue.c **** #include <stdlib.h>
+   2:Core/Src/queue.c **** #include "queue.h"
+   3:Core/Src/queue.c **** 
+   4:Core/Src/queue.c **** static char buffer[QUEUE_SIZE];
+   5:Core/Src/queue.c **** static size_t start = 0;
+   6:Core/Src/queue.c **** static size_t end = 0;
+   7:Core/Src/queue.c **** 
+   8:Core/Src/queue.c **** void QueuePush(char c) {
+  30              		.loc 1 8 24 view -0
+  31              		.cfi_startproc
+  32              		@ args = 0, pretend = 0, frame = 0
+  33              		@ frame_needed = 0, uses_anonymous_args = 0
+  34              		@ link register save eliminated.
+   9:Core/Src/queue.c ****     size_t nextEnd = (end + 1) % QUEUE_SIZE;
+  35              		.loc 1 9 5 view .LVU1
+  36              		.loc 1 9 27 is_stmt 0 view .LVU2
+  37 0000 064B     		ldr	r3, .L3
+  38 0002 1A68     		ldr	r2, [r3]
+  39 0004 531C     		adds	r3, r2, #1
+  40              		.loc 1 9 12 view .LVU3
+  41 0006 03F00703 		and	r3, r3, #7
+  42              	.LVL1:
+  10:Core/Src/queue.c ****     if (nextEnd == start) {
+  43              		.loc 1 10 5 is_stmt 1 view .LVU4
+  44              		.loc 1 10 17 is_stmt 0 view .LVU5
+  45 000a 0549     		ldr	r1, .L3+4
+  46 000c 0968     		ldr	r1, [r1]
+  47              		.loc 1 10 8 view .LVU6
+  48 000e 9942     		cmp	r1, r3
+ARM GAS  /tmp/ccoQxhCQ.s 			page 2
+
+
+  49 0010 03D0     		beq	.L1
+  11:Core/Src/queue.c ****         return;
+  12:Core/Src/queue.c ****     }
+  13:Core/Src/queue.c ****     buffer[end] = c;
+  50              		.loc 1 13 5 is_stmt 1 view .LVU7
+  51              		.loc 1 13 17 is_stmt 0 view .LVU8
+  52 0012 0449     		ldr	r1, .L3+8
+  53 0014 8854     		strb	r0, [r1, r2]
+  14:Core/Src/queue.c ****     end = nextEnd;
+  54              		.loc 1 14 5 is_stmt 1 view .LVU9
+  55              		.loc 1 14 9 is_stmt 0 view .LVU10
+  56 0016 014A     		ldr	r2, .L3
+  57 0018 1360     		str	r3, [r2]
+  58              	.L1:
+  15:Core/Src/queue.c **** }
+  59              		.loc 1 15 1 view .LVU11
+  60 001a 7047     		bx	lr
+  61              	.L4:
+  62              		.align	2
+  63              	.L3:
+  64 001c 00000000 		.word	end
+  65 0020 00000000 		.word	start
+  66 0024 00000000 		.word	buffer
+  67              		.cfi_endproc
+  68              	.LFE0:
+  70              		.section	.text.QueuePop,"ax",%progbits
+  71              		.align	1
+  72              		.global	QueuePop
+  73              		.syntax unified
+  74              		.thumb
+  75              		.thumb_func
+  77              	QueuePop:
+  78              	.LFB1:
+  16:Core/Src/queue.c **** 
+  17:Core/Src/queue.c **** char QueuePop() {
+  79              		.loc 1 17 17 is_stmt 1 view -0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 0, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  18:Core/Src/queue.c ****     if (start == end) {
+  84              		.loc 1 18 5 view .LVU13
+  85              		.loc 1 18 15 is_stmt 0 view .LVU14
+  86 0000 074B     		ldr	r3, .L8
+  87 0002 1B68     		ldr	r3, [r3]
+  88 0004 074A     		ldr	r2, .L8+4
+  89 0006 1268     		ldr	r2, [r2]
+  90              		.loc 1 18 8 view .LVU15
+  91 0008 9342     		cmp	r3, r2
+  92 000a 07D0     		beq	.L7
+  19:Core/Src/queue.c ****         return 0;
+  20:Core/Src/queue.c ****     }
+  21:Core/Src/queue.c ****     char ret = buffer[start];
+  93              		.loc 1 21 5 is_stmt 1 view .LVU16
+  94              		.loc 1 21 10 is_stmt 0 view .LVU17
+  95 000c 064A     		ldr	r2, .L8+8
+  96 000e D05C     		ldrb	r0, [r2, r3]	@ zero_extendqisi2
+ARM GAS  /tmp/ccoQxhCQ.s 			page 3
+
+
+  97              	.LVL2:
+  22:Core/Src/queue.c ****     start = (start + 1) % QUEUE_SIZE;
+  98              		.loc 1 22 5 is_stmt 1 view .LVU18
+  99              		.loc 1 22 20 is_stmt 0 view .LVU19
+ 100 0010 0133     		adds	r3, r3, #1
+ 101              		.loc 1 22 25 view .LVU20
+ 102 0012 03F00703 		and	r3, r3, #7
+ 103              		.loc 1 22 11 view .LVU21
+ 104 0016 024A     		ldr	r2, .L8
+ 105 0018 1360     		str	r3, [r2]
+  23:Core/Src/queue.c ****     return ret;
+ 106              		.loc 1 23 5 is_stmt 1 view .LVU22
+ 107              		.loc 1 23 12 is_stmt 0 view .LVU23
+ 108 001a 7047     		bx	lr
+ 109              	.LVL3:
+ 110              	.L7:
+  19:Core/Src/queue.c ****         return 0;
+ 111              		.loc 1 19 16 view .LVU24
+ 112 001c 0020     		movs	r0, #0
+  24:Core/Src/queue.c **** }
+ 113              		.loc 1 24 1 view .LVU25
+ 114 001e 7047     		bx	lr
+ 115              	.L9:
+ 116              		.align	2
+ 117              	.L8:
+ 118 0020 00000000 		.word	start
+ 119 0024 00000000 		.word	end
+ 120 0028 00000000 		.word	buffer
+ 121              		.cfi_endproc
+ 122              	.LFE1:
+ 124              		.section	.bss.end,"aw",%nobits
+ 125              		.align	2
+ 128              	end:
+ 129 0000 00000000 		.space	4
+ 130              		.section	.bss.start,"aw",%nobits
+ 131              		.align	2
+ 134              	start:
+ 135 0000 00000000 		.space	4
+ 136              		.section	.bss.buffer,"aw",%nobits
+ 137              		.align	2
+ 140              	buffer:
+ 141 0000 00000000 		.space	8
+ 141      00000000 
+ 142              		.text
+ 143              	.Letext0:
+ 144              		.file 2 "/opt/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/13.3.1/include/stddef.h"
+ARM GAS  /tmp/ccoQxhCQ.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 queue.c
+     /tmp/ccoQxhCQ.s:21     .text.QueuePush:00000000 $t
+     /tmp/ccoQxhCQ.s:27     .text.QueuePush:00000000 QueuePush
+     /tmp/ccoQxhCQ.s:64     .text.QueuePush:0000001c $d
+     /tmp/ccoQxhCQ.s:128    .bss.end:00000000 end
+     /tmp/ccoQxhCQ.s:134    .bss.start:00000000 start
+     /tmp/ccoQxhCQ.s:140    .bss.buffer:00000000 buffer
+     /tmp/ccoQxhCQ.s:71     .text.QueuePop:00000000 $t
+     /tmp/ccoQxhCQ.s:77     .text.QueuePop:00000000 QueuePop
+     /tmp/ccoQxhCQ.s:118    .text.QueuePop:00000020 $d
+     /tmp/ccoQxhCQ.s:125    .bss.end:00000000 $d
+     /tmp/ccoQxhCQ.s:131    .bss.start:00000000 $d
+     /tmp/ccoQxhCQ.s:137    .bss.buffer:00000000 $d
+
+NO UNDEFINED SYMBOLS

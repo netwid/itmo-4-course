@@ -1,0 +1,564 @@
+ARM GAS  /tmp/ccMDLsIT.s 			page 1
+
+
+   1              		.cpu cortex-m4
+   2              		.arch armv7e-m
+   3              		.fpu fpv4-sp-d16
+   4              		.eabi_attribute 27, 1
+   5              		.eabi_attribute 28, 1
+   6              		.eabi_attribute 20, 1
+   7              		.eabi_attribute 21, 1
+   8              		.eabi_attribute 23, 3
+   9              		.eabi_attribute 24, 1
+  10              		.eabi_attribute 25, 1
+  11              		.eabi_attribute 26, 1
+  12              		.eabi_attribute 30, 1
+  13              		.eabi_attribute 34, 1
+  14              		.eabi_attribute 18, 4
+  15              		.file	"recieve.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.file 1 "Core/Src/recieve.c"
+  20              		.section	.text.TurnLedOn,"ax",%progbits
+  21              		.align	1
+  22              		.global	TurnLedOn
+  23              		.syntax unified
+  24              		.thumb
+  25              		.thumb_func
+  27              	TurnLedOn:
+  28              	.LFB134:
+   1:Core/Src/recieve.c **** #include <stdlib.h>
+   2:Core/Src/recieve.c **** 
+   3:Core/Src/recieve.c **** #include "main.h"
+   4:Core/Src/recieve.c **** #include "recieve.h"
+   5:Core/Src/recieve.c **** #include "queue.h"
+   6:Core/Src/recieve.c **** #include "global.h"
+   7:Core/Src/recieve.c **** 
+   8:Core/Src/recieve.c **** void TurnLedOn() {
+  29              		.loc 1 8 18 view -0
+  30              		.cfi_startproc
+  31              		@ args = 0, pretend = 0, frame = 0
+  32              		@ frame_needed = 0, uses_anonymous_args = 0
+  33 0000 08B5     		push	{r3, lr}
+  34              	.LCFI0:
+  35              		.cfi_def_cfa_offset 8
+  36              		.cfi_offset 3, -8
+  37              		.cfi_offset 14, -4
+   9:Core/Src/recieve.c ****   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
+  38              		.loc 1 9 3 view .LVU1
+  39 0002 0122     		movs	r2, #1
+  40 0004 4FF40051 		mov	r1, #8192
+  41 0008 0148     		ldr	r0, .L3
+  42 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
+  43              	.LVL0:
+  10:Core/Src/recieve.c **** }
+  44              		.loc 1 10 1 is_stmt 0 view .LVU2
+  45 000e 08BD     		pop	{r3, pc}
+  46              	.L4:
+  47              		.align	2
+  48              	.L3:
+ARM GAS  /tmp/ccMDLsIT.s 			page 2
+
+
+  49 0010 000C0240 		.word	1073875968
+  50              		.cfi_endproc
+  51              	.LFE134:
+  53              		.section	.text.TurnLedOff,"ax",%progbits
+  54              		.align	1
+  55              		.global	TurnLedOff
+  56              		.syntax unified
+  57              		.thumb
+  58              		.thumb_func
+  60              	TurnLedOff:
+  61              	.LFB135:
+  11:Core/Src/recieve.c **** void TurnLedOff() {
+  62              		.loc 1 11 19 is_stmt 1 view -0
+  63              		.cfi_startproc
+  64              		@ args = 0, pretend = 0, frame = 0
+  65              		@ frame_needed = 0, uses_anonymous_args = 0
+  66 0000 08B5     		push	{r3, lr}
+  67              	.LCFI1:
+  68              		.cfi_def_cfa_offset 8
+  69              		.cfi_offset 3, -8
+  70              		.cfi_offset 14, -4
+  12:Core/Src/recieve.c ****   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
+  71              		.loc 1 12 3 view .LVU4
+  72 0002 0022     		movs	r2, #0
+  73 0004 4FF40051 		mov	r1, #8192
+  74 0008 0148     		ldr	r0, .L7
+  75 000a FFF7FEFF 		bl	HAL_GPIO_WritePin
+  76              	.LVL1:
+  13:Core/Src/recieve.c **** }
+  77              		.loc 1 13 1 is_stmt 0 view .LVU5
+  78 000e 08BD     		pop	{r3, pc}
+  79              	.L8:
+  80              		.align	2
+  81              	.L7:
+  82 0010 000C0240 		.word	1073875968
+  83              		.cfi_endproc
+  84              	.LFE135:
+  86              		.section	.text.HandleReceivedMorse,"ax",%progbits
+  87              		.align	1
+  88              		.global	HandleReceivedMorse
+  89              		.syntax unified
+  90              		.thumb
+  91              		.thumb_func
+  93              	HandleReceivedMorse:
+  94              	.LFB136:
+  14:Core/Src/recieve.c **** 
+  15:Core/Src/recieve.c **** static char currentChar = 0;
+  16:Core/Src/recieve.c **** static size_t index = 0;
+  17:Core/Src/recieve.c **** static uint32_t lastActionTime = 0;
+  18:Core/Src/recieve.c **** static _Bool isLedOn = 0;
+  19:Core/Src/recieve.c **** static _Bool isIdle = 1;
+  20:Core/Src/recieve.c **** static _Bool symbolFinished = 0;
+  21:Core/Src/recieve.c **** 
+  22:Core/Src/recieve.c **** void HandleReceivedMorse() {
+  95              		.loc 1 22 28 is_stmt 1 view -0
+  96              		.cfi_startproc
+  97              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  /tmp/ccMDLsIT.s 			page 3
+
+
+  98              		@ frame_needed = 0, uses_anonymous_args = 0
+  99 0000 10B5     		push	{r4, lr}
+ 100              	.LCFI2:
+ 101              		.cfi_def_cfa_offset 8
+ 102              		.cfi_offset 4, -8
+ 103              		.cfi_offset 14, -4
+  23:Core/Src/recieve.c ****   uint32_t currentTime = HAL_GetTick();
+ 104              		.loc 1 23 3 view .LVU7
+ 105              		.loc 1 23 26 is_stmt 0 view .LVU8
+ 106 0002 FFF7FEFF 		bl	HAL_GetTick
+ 107              	.LVL2:
+ 108 0006 0446     		mov	r4, r0
+ 109              	.LVL3:
+  24:Core/Src/recieve.c **** 
+  25:Core/Src/recieve.c ****   if (symbolFinished) {
+ 110              		.loc 1 25 3 is_stmt 1 view .LVU9
+ 111              		.loc 1 25 7 is_stmt 0 view .LVU10
+ 112 0008 304B     		ldr	r3, .L24
+ 113 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 114              		.loc 1 25 6 view .LVU11
+ 115 000c 5BB1     		cbz	r3, .L10
+  26:Core/Src/recieve.c ****     if (currentTime - lastActionTime > INTER_SYMBOL_TIMEOUT) {
+ 116              		.loc 1 26 5 is_stmt 1 view .LVU12
+ 117              		.loc 1 26 21 is_stmt 0 view .LVU13
+ 118 000e 304B     		ldr	r3, .L24+4
+ 119 0010 1B68     		ldr	r3, [r3]
+ 120 0012 C31A     		subs	r3, r0, r3
+ 121              		.loc 1 26 8 view .LVU14
+ 122 0014 B3F5167F 		cmp	r3, #600
+ 123 0018 18D9     		bls	.L9
+  27:Core/Src/recieve.c ****         isIdle = 1;
+ 124              		.loc 1 27 9 is_stmt 1 view .LVU15
+ 125              		.loc 1 27 16 is_stmt 0 view .LVU16
+ 126 001a 2E4B     		ldr	r3, .L24+8
+ 127 001c 0122     		movs	r2, #1
+ 128 001e 1A70     		strb	r2, [r3]
+  28:Core/Src/recieve.c ****         symbolFinished = 0;
+ 129              		.loc 1 28 9 is_stmt 1 view .LVU17
+ 130              		.loc 1 28 24 is_stmt 0 view .LVU18
+ 131 0020 2A4B     		ldr	r3, .L24
+ 132 0022 0022     		movs	r2, #0
+ 133 0024 1A70     		strb	r2, [r3]
+ 134              	.L10:
+  29:Core/Src/recieve.c ****     } else {
+  30:Core/Src/recieve.c ****         return;
+  31:Core/Src/recieve.c ****     }
+  32:Core/Src/recieve.c ****   }
+  33:Core/Src/recieve.c **** 
+  34:Core/Src/recieve.c ****   if (isIdle) {
+ 135              		.loc 1 34 3 is_stmt 1 view .LVU19
+ 136              		.loc 1 34 7 is_stmt 0 view .LVU20
+ 137 0026 2B4B     		ldr	r3, .L24+8
+ 138 0028 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 139              		.loc 1 34 6 view .LVU21
+ 140 002a 83B9     		cbnz	r3, .L19
+ 141              	.LVL4:
+ 142              	.L12:
+ARM GAS  /tmp/ccMDLsIT.s 			page 4
+
+
+  35:Core/Src/recieve.c ****     currentChar = QueuePop();
+  36:Core/Src/recieve.c ****     index = 0;
+  37:Core/Src/recieve.c ****     if (currentChar == 0) {
+  38:Core/Src/recieve.c ****       TurnLedOff();
+  39:Core/Src/recieve.c ****       return;
+  40:Core/Src/recieve.c ****     }
+  41:Core/Src/recieve.c ****     isIdle = 0;
+  42:Core/Src/recieve.c ****   }
+  43:Core/Src/recieve.c **** 
+  44:Core/Src/recieve.c ****   char currentSymbol = Morse[currentChar - 'a'][index];
+ 143              		.loc 1 44 3 is_stmt 1 view .LVU22
+ 144              		.loc 1 44 42 is_stmt 0 view .LVU23
+ 145 002c 2A4B     		ldr	r3, .L24+12
+ 146 002e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 147 0030 613B     		subs	r3, r3, #97
+ 148              		.loc 1 44 29 view .LVU24
+ 149 0032 2A4A     		ldr	r2, .L24+16
+ 150 0034 52F82320 		ldr	r2, [r2, r3, lsl #2]
+ 151              		.loc 1 44 48 view .LVU25
+ 152 0038 294B     		ldr	r3, .L24+20
+ 153 003a 1B68     		ldr	r3, [r3]
+ 154              		.loc 1 44 8 view .LVU26
+ 155 003c D35C     		ldrb	r3, [r2, r3]	@ zero_extendqisi2
+ 156              	.LVL5:
+  45:Core/Src/recieve.c **** 
+  46:Core/Src/recieve.c ****   if (isLedOn) {
+ 157              		.loc 1 46 3 is_stmt 1 view .LVU27
+ 158              		.loc 1 46 7 is_stmt 0 view .LVU28
+ 159 003e 294A     		ldr	r2, .L24+24
+ 160 0040 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 161              		.loc 1 46 6 view .LVU29
+ 162 0042 5AB3     		cbz	r2, .L14
+  47:Core/Src/recieve.c ****     if ((currentSymbol == '.' && currentTime - lastActionTime >= DOT_DURATION) ||
+ 163              		.loc 1 47 5 is_stmt 1 view .LVU30
+ 164              		.loc 1 47 8 is_stmt 0 view .LVU31
+ 165 0044 2E2B     		cmp	r3, #46
+ 166 0046 11D0     		beq	.L20
+ 167              	.L15:
+ 168              		.loc 1 47 80 discriminator 3 view .LVU32
+ 169 0048 2D2B     		cmp	r3, #45
+ 170 004a 20D0     		beq	.L21
+ 171              	.LVL6:
+ 172              	.L9:
+  48:Core/Src/recieve.c ****         (currentSymbol == '-' && currentTime - lastActionTime >= DASH_DURATION)) {
+  49:Core/Src/recieve.c ****       TurnLedOff();
+  50:Core/Src/recieve.c ****       isLedOn = 0;
+  51:Core/Src/recieve.c ****       index++;
+  52:Core/Src/recieve.c ****       lastActionTime = currentTime;
+  53:Core/Src/recieve.c ****     }
+  54:Core/Src/recieve.c ****   } else {
+  55:Core/Src/recieve.c ****     if (currentSymbol == '\0') {
+  56:Core/Src/recieve.c ****       TurnLedOff();
+  57:Core/Src/recieve.c ****       symbolFinished = 1;
+  58:Core/Src/recieve.c ****       index = 0;
+  59:Core/Src/recieve.c ****       return;
+  60:Core/Src/recieve.c ****     } else if (currentTime - lastActionTime >= INTER_ELEMENT_TIMEOUT) {
+  61:Core/Src/recieve.c ****       // Моргнуть светодиодом в зависимости от символа
+ARM GAS  /tmp/ccMDLsIT.s 			page 5
+
+
+  62:Core/Src/recieve.c ****       TurnLedOn();
+  63:Core/Src/recieve.c ****       isLedOn = 1;
+  64:Core/Src/recieve.c ****       lastActionTime = currentTime;
+  65:Core/Src/recieve.c ****     }
+  66:Core/Src/recieve.c ****   }
+  67:Core/Src/recieve.c **** }
+ 173              		.loc 1 67 1 view .LVU33
+ 174 004c 10BD     		pop	{r4, pc}
+ 175              	.LVL7:
+ 176              	.L19:
+  35:Core/Src/recieve.c ****     index = 0;
+ 177              		.loc 1 35 5 is_stmt 1 view .LVU34
+  35:Core/Src/recieve.c ****     index = 0;
+ 178              		.loc 1 35 19 is_stmt 0 view .LVU35
+ 179 004e FFF7FEFF 		bl	QueuePop
+ 180              	.LVL8:
+  35:Core/Src/recieve.c ****     index = 0;
+ 181              		.loc 1 35 17 discriminator 1 view .LVU36
+ 182 0052 214B     		ldr	r3, .L24+12
+ 183 0054 1870     		strb	r0, [r3]
+  36:Core/Src/recieve.c ****     if (currentChar == 0) {
+ 184              		.loc 1 36 5 is_stmt 1 view .LVU37
+  36:Core/Src/recieve.c ****     if (currentChar == 0) {
+ 185              		.loc 1 36 11 is_stmt 0 view .LVU38
+ 186 0056 224B     		ldr	r3, .L24+20
+ 187 0058 0022     		movs	r2, #0
+ 188 005a 1A60     		str	r2, [r3]
+  37:Core/Src/recieve.c ****       TurnLedOff();
+ 189              		.loc 1 37 5 is_stmt 1 view .LVU39
+  37:Core/Src/recieve.c ****       TurnLedOff();
+ 190              		.loc 1 37 8 is_stmt 0 view .LVU40
+ 191 005c 18B1     		cbz	r0, .L22
+  41:Core/Src/recieve.c ****   }
+ 192              		.loc 1 41 5 is_stmt 1 view .LVU41
+  41:Core/Src/recieve.c ****   }
+ 193              		.loc 1 41 12 is_stmt 0 view .LVU42
+ 194 005e 1D4B     		ldr	r3, .L24+8
+ 195 0060 0022     		movs	r2, #0
+ 196 0062 1A70     		strb	r2, [r3]
+ 197 0064 E2E7     		b	.L12
+ 198              	.L22:
+  38:Core/Src/recieve.c ****       return;
+ 199              		.loc 1 38 7 is_stmt 1 view .LVU43
+ 200 0066 FFF7FEFF 		bl	TurnLedOff
+ 201              	.LVL9:
+  39:Core/Src/recieve.c ****     }
+ 202              		.loc 1 39 7 view .LVU44
+ 203 006a EFE7     		b	.L9
+ 204              	.LVL10:
+ 205              	.L20:
+  47:Core/Src/recieve.c ****         (currentSymbol == '-' && currentTime - lastActionTime >= DASH_DURATION)) {
+ 206              		.loc 1 47 46 is_stmt 0 discriminator 1 view .LVU45
+ 207 006c 184A     		ldr	r2, .L24+4
+ 208 006e 1268     		ldr	r2, [r2]
+ 209 0070 A21A     		subs	r2, r4, r2
+  47:Core/Src/recieve.c ****         (currentSymbol == '-' && currentTime - lastActionTime >= DASH_DURATION)) {
+ 210              		.loc 1 47 31 discriminator 1 view .LVU46
+ARM GAS  /tmp/ccMDLsIT.s 			page 6
+
+
+ 211 0072 C72A     		cmp	r2, #199
+ 212 0074 E8D9     		bls	.L15
+ 213              	.LVL11:
+ 214              	.L16:
+  49:Core/Src/recieve.c ****       isLedOn = 0;
+ 215              		.loc 1 49 7 is_stmt 1 view .LVU47
+ 216 0076 FFF7FEFF 		bl	TurnLedOff
+ 217              	.LVL12:
+  50:Core/Src/recieve.c ****       index++;
+ 218              		.loc 1 50 7 view .LVU48
+  50:Core/Src/recieve.c ****       index++;
+ 219              		.loc 1 50 15 is_stmt 0 view .LVU49
+ 220 007a 1A4B     		ldr	r3, .L24+24
+ 221 007c 0022     		movs	r2, #0
+ 222 007e 1A70     		strb	r2, [r3]
+  51:Core/Src/recieve.c ****       lastActionTime = currentTime;
+ 223              		.loc 1 51 7 is_stmt 1 view .LVU50
+  51:Core/Src/recieve.c ****       lastActionTime = currentTime;
+ 224              		.loc 1 51 12 is_stmt 0 view .LVU51
+ 225 0080 174A     		ldr	r2, .L24+20
+ 226 0082 1368     		ldr	r3, [r2]
+ 227 0084 0133     		adds	r3, r3, #1
+ 228 0086 1360     		str	r3, [r2]
+  52:Core/Src/recieve.c ****     }
+ 229              		.loc 1 52 7 is_stmt 1 view .LVU52
+  52:Core/Src/recieve.c ****     }
+ 230              		.loc 1 52 22 is_stmt 0 view .LVU53
+ 231 0088 114B     		ldr	r3, .L24+4
+ 232 008a 1C60     		str	r4, [r3]
+ 233 008c DEE7     		b	.L9
+ 234              	.LVL13:
+ 235              	.L21:
+  48:Core/Src/recieve.c ****       TurnLedOff();
+ 236              		.loc 1 48 46 view .LVU54
+ 237 008e 104B     		ldr	r3, .L24+4
+ 238              	.LVL14:
+  48:Core/Src/recieve.c ****       TurnLedOff();
+ 239              		.loc 1 48 46 view .LVU55
+ 240 0090 1B68     		ldr	r3, [r3]
+ 241 0092 E31A     		subs	r3, r4, r3
+  48:Core/Src/recieve.c ****       TurnLedOff();
+ 242              		.loc 1 48 31 view .LVU56
+ 243 0094 B3F57A7F 		cmp	r3, #1000
+ 244 0098 D8D3     		bcc	.L9
+ 245 009a ECE7     		b	.L16
+ 246              	.LVL15:
+ 247              	.L14:
+  55:Core/Src/recieve.c ****       TurnLedOff();
+ 248              		.loc 1 55 5 is_stmt 1 view .LVU57
+  55:Core/Src/recieve.c ****       TurnLedOff();
+ 249              		.loc 1 55 8 is_stmt 0 view .LVU58
+ 250 009c 63B1     		cbz	r3, .L23
+  60:Core/Src/recieve.c ****       // Моргнуть светодиодом в зависимости от символа
+ 251              		.loc 1 60 12 is_stmt 1 view .LVU59
+  60:Core/Src/recieve.c ****       // Моргнуть светодиодом в зависимости от символа
+ 252              		.loc 1 60 28 is_stmt 0 view .LVU60
+ 253 009e 0C4B     		ldr	r3, .L24+4
+ARM GAS  /tmp/ccMDLsIT.s 			page 7
+
+
+ 254              	.LVL16:
+  60:Core/Src/recieve.c ****       // Моргнуть светодиодом в зависимости от символа
+ 255              		.loc 1 60 28 view .LVU61
+ 256 00a0 1B68     		ldr	r3, [r3]
+ 257 00a2 E31A     		subs	r3, r4, r3
+  60:Core/Src/recieve.c ****       // Моргнуть светодиодом в зависимости от символа
+ 258              		.loc 1 60 15 view .LVU62
+ 259 00a4 C72B     		cmp	r3, #199
+ 260 00a6 D1D9     		bls	.L9
+  62:Core/Src/recieve.c ****       isLedOn = 1;
+ 261              		.loc 1 62 7 is_stmt 1 view .LVU63
+ 262 00a8 FFF7FEFF 		bl	TurnLedOn
+ 263              	.LVL17:
+  63:Core/Src/recieve.c ****       lastActionTime = currentTime;
+ 264              		.loc 1 63 7 view .LVU64
+  63:Core/Src/recieve.c ****       lastActionTime = currentTime;
+ 265              		.loc 1 63 15 is_stmt 0 view .LVU65
+ 266 00ac 0D4B     		ldr	r3, .L24+24
+ 267 00ae 0122     		movs	r2, #1
+ 268 00b0 1A70     		strb	r2, [r3]
+  64:Core/Src/recieve.c ****     }
+ 269              		.loc 1 64 7 is_stmt 1 view .LVU66
+  64:Core/Src/recieve.c ****     }
+ 270              		.loc 1 64 22 is_stmt 0 view .LVU67
+ 271 00b2 074B     		ldr	r3, .L24+4
+ 272 00b4 1C60     		str	r4, [r3]
+ 273 00b6 C9E7     		b	.L9
+ 274              	.LVL18:
+ 275              	.L23:
+  56:Core/Src/recieve.c ****       symbolFinished = 1;
+ 276              		.loc 1 56 7 is_stmt 1 view .LVU68
+ 277 00b8 FFF7FEFF 		bl	TurnLedOff
+ 278              	.LVL19:
+  57:Core/Src/recieve.c ****       index = 0;
+ 279              		.loc 1 57 7 view .LVU69
+  57:Core/Src/recieve.c ****       index = 0;
+ 280              		.loc 1 57 22 is_stmt 0 view .LVU70
+ 281 00bc 034B     		ldr	r3, .L24
+ 282 00be 0122     		movs	r2, #1
+ 283 00c0 1A70     		strb	r2, [r3]
+  58:Core/Src/recieve.c ****       return;
+ 284              		.loc 1 58 7 is_stmt 1 view .LVU71
+  58:Core/Src/recieve.c ****       return;
+ 285              		.loc 1 58 13 is_stmt 0 view .LVU72
+ 286 00c2 074B     		ldr	r3, .L24+20
+ 287 00c4 0022     		movs	r2, #0
+ 288 00c6 1A60     		str	r2, [r3]
+  59:Core/Src/recieve.c ****     } else if (currentTime - lastActionTime >= INTER_ELEMENT_TIMEOUT) {
+ 289              		.loc 1 59 7 is_stmt 1 view .LVU73
+ 290 00c8 C0E7     		b	.L9
+ 291              	.L25:
+ 292 00ca 00BF     		.align	2
+ 293              	.L24:
+ 294 00cc 00000000 		.word	symbolFinished
+ 295 00d0 00000000 		.word	lastActionTime
+ 296 00d4 00000000 		.word	isIdle
+ 297 00d8 00000000 		.word	currentChar
+ARM GAS  /tmp/ccMDLsIT.s 			page 8
+
+
+ 298 00dc 00000000 		.word	Morse
+ 299 00e0 00000000 		.word	index
+ 300 00e4 00000000 		.word	isLedOn
+ 301              		.cfi_endproc
+ 302              	.LFE136:
+ 304              		.section	.text.HandleReceive,"ax",%progbits
+ 305              		.align	1
+ 306              		.global	HandleReceive
+ 307              		.syntax unified
+ 308              		.thumb
+ 309              		.thumb_func
+ 311              	HandleReceive:
+ 312              	.LVL20:
+ 313              	.LFB137:
+  68:Core/Src/recieve.c **** 
+  69:Core/Src/recieve.c **** static uint8_t receivedChar;
+  70:Core/Src/recieve.c **** 
+  71:Core/Src/recieve.c **** void HandleReceive(UART_HandleTypeDef *huart1) {
+ 314              		.loc 1 71 48 view -0
+ 315              		.cfi_startproc
+ 316              		@ args = 0, pretend = 0, frame = 0
+ 317              		@ frame_needed = 0, uses_anonymous_args = 0
+ 318              		.loc 1 71 48 is_stmt 0 view .LVU75
+ 319 0000 08B5     		push	{r3, lr}
+ 320              	.LCFI3:
+ 321              		.cfi_def_cfa_offset 8
+ 322              		.cfi_offset 3, -8
+ 323              		.cfi_offset 14, -4
+  72:Core/Src/recieve.c ****     // Recieve UART ans push to queue
+  73:Core/Src/recieve.c ****     if (HAL_UART_Receive(huart1, &receivedChar, 1, 10) == HAL_OK) {
+ 324              		.loc 1 73 5 is_stmt 1 view .LVU76
+ 325              		.loc 1 73 9 is_stmt 0 view .LVU77
+ 326 0002 0A23     		movs	r3, #10
+ 327 0004 0122     		movs	r2, #1
+ 328 0006 0649     		ldr	r1, .L30
+ 329 0008 FFF7FEFF 		bl	HAL_UART_Receive
+ 330              	.LVL21:
+ 331              		.loc 1 73 8 discriminator 1 view .LVU78
+ 332 000c 10B1     		cbz	r0, .L29
+ 333              	.L27:
+  74:Core/Src/recieve.c ****         QueuePush(receivedChar);
+  75:Core/Src/recieve.c ****     }
+  76:Core/Src/recieve.c **** 
+  77:Core/Src/recieve.c ****     HandleReceivedMorse();
+ 334              		.loc 1 77 5 is_stmt 1 view .LVU79
+ 335 000e FFF7FEFF 		bl	HandleReceivedMorse
+ 336              	.LVL22:
+  78:Core/Src/recieve.c **** }...
+ 337              		.loc 1 78 1 is_stmt 0 view .LVU80
+ 338 0012 08BD     		pop	{r3, pc}
+ 339              	.L29:
+  74:Core/Src/recieve.c ****         QueuePush(receivedChar);
+ 340              		.loc 1 74 9 is_stmt 1 view .LVU81
+ 341 0014 024B     		ldr	r3, .L30
+ 342 0016 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 343 0018 FFF7FEFF 		bl	QueuePush
+ 344              	.LVL23:
+ARM GAS  /tmp/ccMDLsIT.s 			page 9
+
+
+ 345 001c F7E7     		b	.L27
+ 346              	.L31:
+ 347 001e 00BF     		.align	2
+ 348              	.L30:
+ 349 0020 00000000 		.word	receivedChar
+ 350              		.cfi_endproc
+ 351              	.LFE137:
+ 353              		.section	.bss.receivedChar,"aw",%nobits
+ 356              	receivedChar:
+ 357 0000 00       		.space	1
+ 358              		.section	.bss.symbolFinished,"aw",%nobits
+ 361              	symbolFinished:
+ 362 0000 00       		.space	1
+ 363              		.section	.data.isIdle,"aw"
+ 366              	isIdle:
+ 367 0000 01       		.byte	1
+ 368              		.section	.bss.isLedOn,"aw",%nobits
+ 371              	isLedOn:
+ 372 0000 00       		.space	1
+ 373              		.section	.bss.lastActionTime,"aw",%nobits
+ 374              		.align	2
+ 377              	lastActionTime:
+ 378 0000 00000000 		.space	4
+ 379              		.section	.bss.index,"aw",%nobits
+ 380              		.align	2
+ 383              	index:
+ 384 0000 00000000 		.space	4
+ 385              		.section	.bss.currentChar,"aw",%nobits
+ 388              	currentChar:
+ 389 0000 00       		.space	1
+ 390              		.text
+ 391              	.Letext0:
+ 392              		.file 2 "/opt/gcc-arm-none-eabi/lib/gcc/arm-none-eabi/13.3.1/include/stddef.h"
+ 393              		.file 3 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 394              		.file 4 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 395              		.file 5 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 396              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 397              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 398              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 399              		.file 9 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 400              		.file 10 "Core/Inc/queue.h"
+ 401              		.file 11 "Core/Inc/global.h"
+ 402              		.file 12 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ARM GAS  /tmp/ccMDLsIT.s 			page 10
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 recieve.c
+     /tmp/ccMDLsIT.s:21     .text.TurnLedOn:00000000 $t
+     /tmp/ccMDLsIT.s:27     .text.TurnLedOn:00000000 TurnLedOn
+     /tmp/ccMDLsIT.s:49     .text.TurnLedOn:00000010 $d
+     /tmp/ccMDLsIT.s:54     .text.TurnLedOff:00000000 $t
+     /tmp/ccMDLsIT.s:60     .text.TurnLedOff:00000000 TurnLedOff
+     /tmp/ccMDLsIT.s:82     .text.TurnLedOff:00000010 $d
+     /tmp/ccMDLsIT.s:87     .text.HandleReceivedMorse:00000000 $t
+     /tmp/ccMDLsIT.s:93     .text.HandleReceivedMorse:00000000 HandleReceivedMorse
+     /tmp/ccMDLsIT.s:294    .text.HandleReceivedMorse:000000cc $d
+     /tmp/ccMDLsIT.s:361    .bss.symbolFinished:00000000 symbolFinished
+     /tmp/ccMDLsIT.s:377    .bss.lastActionTime:00000000 lastActionTime
+     /tmp/ccMDLsIT.s:366    .data.isIdle:00000000 isIdle
+     /tmp/ccMDLsIT.s:388    .bss.currentChar:00000000 currentChar
+     /tmp/ccMDLsIT.s:383    .bss.index:00000000 index
+     /tmp/ccMDLsIT.s:371    .bss.isLedOn:00000000 isLedOn
+     /tmp/ccMDLsIT.s:305    .text.HandleReceive:00000000 $t
+     /tmp/ccMDLsIT.s:311    .text.HandleReceive:00000000 HandleReceive
+     /tmp/ccMDLsIT.s:349    .text.HandleReceive:00000020 $d
+     /tmp/ccMDLsIT.s:356    .bss.receivedChar:00000000 receivedChar
+     /tmp/ccMDLsIT.s:357    .bss.receivedChar:00000000 $d
+     /tmp/ccMDLsIT.s:362    .bss.symbolFinished:00000000 $d
+     /tmp/ccMDLsIT.s:372    .bss.isLedOn:00000000 $d
+     /tmp/ccMDLsIT.s:374    .bss.lastActionTime:00000000 $d
+     /tmp/ccMDLsIT.s:380    .bss.index:00000000 $d
+     /tmp/ccMDLsIT.s:389    .bss.currentChar:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_GPIO_WritePin
+HAL_GetTick
+QueuePop
+Morse
+HAL_UART_Receive
+QueuePush
