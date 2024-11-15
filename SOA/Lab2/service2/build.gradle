@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'war'
 }
 
 group = 'org.example'
@@ -24,7 +25,9 @@ dependencies {
 
     implementation 'org.springframework:spring-webmvc:6.1.14'
 
-    implementation 'fish.payara.extras:payara-embedded-all:6.2024.10'
+    providedCompile 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+//    implementation 'fish.payara.extras:payara-embedded-all:6.2024.10'
 }
 
 test {
