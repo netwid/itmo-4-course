@@ -38,16 +38,16 @@ public class PersonService {
     }
 
     // Поиск персон с фильтрацией и сортировкой
-    public Map<String, Object> searchPersons(SearchRequest searchRequest) {
+    public PersonsResponse searchPersons(SearchRequest searchRequest) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Person> cq = cb.createQuery(Person.class);
         Root<Person> personRoot = cq.from(Person.class);
 
+        // Создаем предикаты на основе фильтров
         List<Predicate> predicates = buildPredicates(cb, personRoot, searchRequest.getFilter());
-
         cq.where(predicates.toArray(new Predicate[0]));
 
-        // Сортировка
+        // Добавляем сортировку
         if (searchRequest.getSortCriteria() != null && searchRequest.getSortCriteria().getFields() != null) {
             List<Order> orders = buildOrders(cb, personRoot, searchRequest.getSortCriteria());
             cq.orderBy(orders);
@@ -55,7 +55,6 @@ public class PersonService {
 
         // Пагинация
         TypedQuery<Person> query = entityManager.createQuery(cq);
-
         int page = (searchRequest.getPage() != null && searchRequest.getPage() > 0) ? searchRequest.getPage() : 1;
         int size = (searchRequest.getSize() != null && searchRequest.getSize() > 0) ? searchRequest.getSize() : 10;
 
@@ -67,23 +66,20 @@ public class PersonService {
         Long totalRecords = entityManager.createQuery(countQuery).getSingleResult();
         int totalPages = (int) Math.ceil((double) totalRecords / size);
 
+        // Устанавливаем параметры пагинации
         query.setFirstResult((page - 1) * size);
         query.setMaxResults(size);
 
+        // Получаем результаты
         List<Person> persons = query.getResultList();
         List<PersonDTO> personDTOs = persons.stream()
                 .map(p -> modelMapper.map(p, PersonDTO.class))
                 .collect(Collectors.toList());
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("totalResults", totalRecords);
-        result.put("totalPages", totalPages);
-        result.put("currentPage", page);
-        result.put("pageSize", size);
-        result.put("persons", personDTOs);
-
-        return result;
+        // Формируем ответ
+        return new PersonsResponse(totalRecords, totalPages, page, size, personDTOs);
     }
+
 
     private List<Predicate> buildPredicates(CriteriaBuilder cb, Root<Person> root, PersonFilter filter) {
         List<Predicate> predicates = new ArrayList<>();

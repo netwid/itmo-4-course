@@ -13,6 +13,9 @@ import java.util.List;
 @JacksonXmlRootElement(localName = "personsResponse")
 public class PersonsResponse {
 
+    @JacksonXmlProperty(localName = "totalResults")
+    private long totalResults;
+
     @JacksonXmlProperty(localName = "totalPages")
     private int totalPages;
 
@@ -28,7 +31,8 @@ public class PersonsResponse {
 
     public PersonsResponse() {}
 
-    public PersonsResponse(int totalPages, int currentPage, int pageSize, List<PersonDTO> persons) {
+    public PersonsResponse(long totalResults, int totalPages, int currentPage, int pageSize, List<PersonDTO> persons) {
+        this.totalResults = totalResults;
         this.totalPages = totalPages;
         this.currentPage = currentPage;
         this.pageSize = pageSize;

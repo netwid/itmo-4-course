@@ -26,9 +26,9 @@ public class PersonController {
 
     // Поиск элементов коллекции с фильтрацией и сортировкой
     @PostMapping("/search")
-    public ResponseEntity<Map<String, Object>> searchPersons(@RequestBody SearchRequest searchRequest) {
-        Map<String, Object> result = service.searchPersons(searchRequest);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<PersonsResponse> searchPersons(@RequestBody SearchRequest searchRequest) {
+        PersonsResponse response = service.searchPersons(searchRequest);
+        return ResponseEntity.ok(response);
     }
 
     // Получить элемент по ID
@@ -84,7 +84,7 @@ public class PersonController {
         List<PersonDTO> persons = service.getPersonsByNationalityGreaterThan(nationality, page, size);
         int totalPages = persons.size() > 0 ? (int) Math.ceil((double) persons.size() / size) : 0;
 
-        PersonsResponse response = new PersonsResponse(totalPages, page, size, persons);
+        PersonsResponse response = new PersonsResponse(persons.size(), totalPages, page, size, persons);
         return ResponseEntity.ok(response);
     }
 
