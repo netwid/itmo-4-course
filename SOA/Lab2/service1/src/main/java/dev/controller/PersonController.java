@@ -1,25 +1,91 @@
 package dev.controller;
 
-import dev.dto.PersonDTO;
+import dev.dto.*;
 import dev.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/persons")
 public class PersonController {
+
     @Autowired
     PersonService service;
 
-    @GetMapping("/findPersons")
-    public List<PersonDTO> findPersons() {
-        return service.getPersons();
+    // Добавить новый элемент в коллекцию
+    @PostMapping
+    public ResponseEntity<PersonDTO> savePerson(@RequestBody PersonDTO personDTO) {
+        PersonDTO savedPerson = service.savePerson(personDTO);
+        return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
-    @PostMapping("/savePerson")
-    public PersonDTO savePerson(@RequestBody PersonDTO personDTO) {
-        return service.savePerson(personDTO);
+    // Поиск элементов коллекции с фильтрацией и сортировкой
+    @PostMapping("/search")
+    public ResponseEntity<Map<String, Object>> searchPersons(@RequestBody SearchRequest searchRequest) {
+        Map<String, Object> result = service.searchPersons(searchRequest);
+        return ResponseEntity.ok(result);
     }
+
+    // Получить элемент по ID
+    @GetMapping("/{id}")
+    public ResponseEntity<PersonDTO> getPersonById(@PathVariable("id") Long id) {
+        PersonDTO person = service.getPersonById(id);
+        return person != null ? ResponseEntity.ok(person) : ResponseEntity.notFound().build();
+    }
+
+    // Обновить элемент по ID
+    @PutMapping("/{id}")
+    public ResponseEntity<PersonDTO> updatePerson(@PathVariable("id") Long id, @RequestBody PersonDTO personDTO) {
+        PersonDTO updatedPerson = service.updatePerson(id, personDTO);
+        return updatedPerson != null ? ResponseEntity.ok(updatedPerson) : ResponseEntity.notFound().build();
+    }
+
+    // Удалить элемент по ID
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePerson(@PathVariable("id") Long id) {
+        boolean deleted = service.deletePerson(id);
+        return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    }
+
+    // Рассчитать среднее значение поля height
+    @GetMapping("/average-height")
+    public ResponseEntity<AverageHeightResponse> getAverageHeight() {
+        Double averageHeight = service.getAverageHeight();
+        AverageHeightResponse response = new AverageHeightResponse(averageHeight);
+        return ResponseEntity.ok(response);
+    }
+
+
+    // Получить количество элементов по location
+    @GetMapping("/count-by-location")
+    public ResponseEntity<CountResponse> countByLocation(
+            @RequestParam("x") Integer x,
+            @RequestParam("y") float y,
+            @RequestParam("z") float z,
+            @RequestParam("name") String name) {
+        Long count = service.countByLocation(x, y, z, name);
+        CountResponse response = new CountResponse(count);
+        return ResponseEntity.ok(response);
+    }
+
+
+    // Получить элементы с nationality больше заданного
+    @GetMapping("/nationality-greater-than")
+    public ResponseEntity<PersonsResponse> getPersonsByNationalityGreaterThan(
+            @RequestParam("nationality") String nationality,
+            @RequestParam(value = "page", defaultValue = "1") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size) {
+
+        List<PersonDTO> persons = service.getPersonsByNationalityGreaterThan(nationality, page, size);
+        int totalPages = persons.size() > 0 ? (int) Math.ceil((double) persons.size() / size) : 0;
+
+        PersonsResponse response = new PersonsResponse(totalPages, page, size, persons);
+        return ResponseEntity.ok(response);
+    }
+
 }
