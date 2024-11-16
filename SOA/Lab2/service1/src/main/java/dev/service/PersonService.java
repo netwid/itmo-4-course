@@ -24,6 +24,7 @@ public class PersonService {
     }
 
     public PersonDTO savePerson(PersonDTO personDTO) {
+        personDTO.setId(null);
         Person person = modelMapper.map(personDTO, Person.class);
         return modelMapper.map(personRepository.save(person), PersonDTO.class);
     }
