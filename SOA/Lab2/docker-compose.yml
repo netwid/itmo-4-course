@@ -21,7 +21,9 @@ services:
     build:
       context: service2/.
     ports:
-      - "8080:8080"
+#      - "8080:8080"
+      - "4848:4848"
+      - "8444:8444"
     volumes:
       - ./service2/build/libs:/opt/payara/deployments # Добавляем том, чтобы WAR файл можно было обновлять
 
