@@ -37,6 +37,8 @@ dependencies {
     implementation 'org.hibernate.orm:hibernate-core:6.6.1.Final'
 
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+
     implementation 'org.modelmapper:modelmapper:3.2.1'
 }
 
