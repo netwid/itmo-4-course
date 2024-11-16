@@ -1,0 +1,29 @@
+services:
+  service1:
+    build:
+      context: service1/.
+    ports:
+      - '8443:8443'
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_PASSWORD: postgres
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+
+  service2:
+    build:
+      context: service2/.
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./service2/build/libs:/opt/payara/deployments # Добавляем том, чтобы WAR файл можно было обновлять
+
+#volumes:
+#  db-data:

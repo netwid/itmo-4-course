@@ -1,6 +1,9 @@
 package dev;
 
+import org.apache.catalina.connector.Connector;
 import org.apache.catalina.startup.Tomcat;
+import org.apache.tomcat.util.net.SSLHostConfig;
+import org.apache.tomcat.util.net.SSLHostConfigCertificate;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,16 +11,53 @@ import java.io.IOException;
 
 public class App {
     private static final int PORT = getPort();
+    private static final String KEYSTORE_PATH = "keystore.jks";
+    private static final String KEYSTORE_PASSWORD = "changeme";
+    private static final String KEY_ALIAS = "tomcat";
 
     public static void main(String[] args) throws Exception {
-        final Tomcat tomcat = new Tomcat();
+        Tomcat tomcat = new Tomcat();
         tomcat.setBaseDir(createTempDir());
         tomcat.setPort(PORT);
-        tomcat.getConnector();
+
+        // Настраиваем SSL Connector
+        Connector httpsConnector = createSslConnector();
+        tomcat.getService().addConnector(httpsConnector);
+        tomcat.setConnector(httpsConnector);
+
         tomcat.getHost().setAppBase(".");
         tomcat.addWebapp("", ".");
+
         tomcat.start();
         tomcat.getServer().await();
+    }
+
+    private static Connector createSslConnector() {
+        Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
+        connector.setPort(PORT);
+        connector.setSecure(true);
+        connector.setScheme("https");
+
+        connector.setProperty("SSLEnabled", "true");
+
+        // Создаем SSLHostConfig
+        SSLHostConfig sslHostConfig = new SSLHostConfig();
+        sslHostConfig.setHostName("_default_");
+        sslHostConfig.setProtocols("TLSv1.2,TLSv1.3");
+
+        // Создаем SSLHostConfigCertificate и настраиваем его
+        SSLHostConfigCertificate certificate = new SSLHostConfigCertificate(sslHostConfig, SSLHostConfigCertificate.Type.RSA);
+        certificate.setCertificateKeystoreFile(KEYSTORE_PATH);
+        certificate.setCertificateKeystorePassword(KEYSTORE_PASSWORD);
+        certificate.setCertificateKeyAlias(KEY_ALIAS);
+
+        // Добавляем сертификат к SSLHostConfig
+        sslHostConfig.addCertificate(certificate);
+
+        // Добавляем SSLHostConfig к коннектору
+        connector.addSslHostConfig(sslHostConfig);
+
+        return connector;
     }
 
     private static int getPort() {
@@ -25,10 +65,9 @@ public class App {
         if (port != null) {
             return Integer.parseInt(port);
         }
-        return 13980;
+        return 8443;
     }
 
-    // based on https://github.com/joansmith/spring-boot/blob/410dedc5675121da87cdbb83a53ad43179982407/spring-boot/src/main/java/org/springframework/boot/context/embedded/AbstractEmbeddedServletContainerFactory.java#L172
     private static String createTempDir() {
         try {
             File tempDir = File.createTempFile("tomcat.", "." + PORT);
