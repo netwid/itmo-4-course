@@ -5,6 +5,8 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
@@ -13,6 +15,7 @@ import java.util.Date;
 @Component
 @Getter
 @Setter
+@ToString
 @JacksonXmlRootElement(localName = "person")
 public class PersonDTO {
 

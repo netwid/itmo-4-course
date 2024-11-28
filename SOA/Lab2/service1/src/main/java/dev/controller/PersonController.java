@@ -27,6 +27,7 @@ public class PersonController {
     // Поиск элементов коллекции с фильтрацией и сортировкой
     @PostMapping("/search")
     public ResponseEntity<PersonsResponse> searchPersons(@RequestBody SearchRequest searchRequest) {
+        System.out.println(searchRequest);
         PersonsResponse response = service.searchPersons(searchRequest);
         return ResponseEntity.ok(response);
     }
