@@ -126,6 +126,32 @@ public class PersonService {
                 }
             }
 
+            // Фильтр по весу
+            if (personFilter.getWeight() != null) {
+                if (personFilter.getWeight().getMin() != null) {
+                    Predicate minWeightPredicate = cb.ge(root.get("weight"), personFilter.getWeight().getMin());
+                    predicates.add(minWeightPredicate);
+                    System.out.println("Добавлен предикат по минимальному весу: " + minWeightPredicate);
+                }
+                if (personFilter.getWeight().getMax() != null) {
+                    Predicate maxWeightPredicate = cb.le(root.get("weight"), personFilter.getWeight().getMax());
+                    predicates.add(maxWeightPredicate);
+                    System.out.println("Добавлен предикат по максимальному весу: " + maxWeightPredicate);
+                }
+                if (personFilter.getWeight().getIn() != null && !personFilter.getWeight().getIn().isEmpty()) {
+                    Predicate weightInPredicate = root.get("weight").in(personFilter.getWeight().getIn());
+                    predicates.add(weightInPredicate);
+                    System.out.println("Добавлен предикат по весу (in): " + weightInPredicate);
+                }
+            }
+
+            // Фильтр по ID паспорта
+            if (personFilter.getPassportID() != null && !personFilter.getPassportID().isEmpty()) {
+                Predicate passportPredicate = root.get("passportID").in(personFilter.getPassportID());
+                predicates.add(passportPredicate);
+                System.out.println("Добавлен предикат по ID паспорта: " + passportPredicate);
+            }
+
             // Фильтр по национальности
             if (personFilter.getNationality() != null && !personFilter.getNationality().isEmpty()) {
                 List<Country> countries = personFilter.getNationality().stream()
@@ -134,6 +160,48 @@ public class PersonService {
                 Predicate nationalityPredicate = root.get("nationality").in(countries);
                 predicates.add(nationalityPredicate);
                 System.out.println("Добавлен предикат по национальности: " + nationalityPredicate);
+            }
+
+            // Фильтр по цвету волос
+            if (personFilter.getHairColor() != null && !personFilter.getHairColor().isEmpty()) {
+                List<HairColor> hairColors = personFilter.getHairColor().stream()
+                        .map(HairColor::valueOf)
+                        .collect(Collectors.toList());
+                Predicate hairColorPredicate = root.get("hairColor").in(hairColors);
+                predicates.add(hairColorPredicate);
+                System.out.println("Добавлен предикат по цвету волос: " + hairColorPredicate);
+            }
+
+            // Фильтр по цвету глаз
+            if (personFilter.getEyeColor() != null && !personFilter.getEyeColor().isEmpty()) {
+                List<EyeColor> eyeColors = personFilter.getEyeColor().stream()
+                        .map(EyeColor::valueOf)
+                        .collect(Collectors.toList());
+                Predicate eyeColorPredicate = root.get("eyeColor").in(eyeColors);
+                predicates.add(eyeColorPredicate);
+                System.out.println("Добавлен предикат по цвету глаз: " + eyeColorPredicate);
+            }
+
+            // Фильтр по дате создания
+            if (personFilter.getCreationDate() != null) {
+                if (personFilter.getCreationDate().getMin() != null) {
+                    Predicate minDatePredicate = cb.greaterThanOrEqualTo(root.get("creationDate"),
+                            personFilter.getCreationDate().getMin());
+                    predicates.add(minDatePredicate);
+                    System.out.println("Добавлен предикат по минимальной дате создания: " + minDatePredicate);
+                }
+                if (personFilter.getCreationDate().getMax() != null) {
+                    Predicate maxDatePredicate = cb.lessThanOrEqualTo(root.get("creationDate"),
+                            personFilter.getCreationDate().getMax());
+                    predicates.add(maxDatePredicate);
+                    System.out.println("Добавлен предикат по максимальной дате создания: " + maxDatePredicate);
+                }
+                if (personFilter.getCreationDate().getIn() != null
+                        && !personFilter.getCreationDate().getIn().isEmpty()) {
+                    Predicate dateInPredicate = root.get("creationDate").in(personFilter.getCreationDate().getIn());
+                    predicates.add(dateInPredicate);
+                    System.out.println("Добавлен предикат по дате создания (in): " + dateInPredicate);
+                }
             }
 
             // Фильтр по координатам
