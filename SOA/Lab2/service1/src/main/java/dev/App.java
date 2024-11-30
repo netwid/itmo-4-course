@@ -11,9 +11,9 @@ import java.io.IOException;
 
 public class App {
     private static final int PORT = getPort();
-    private static final String KEYSTORE_PATH = "keystore.jks";
-    private static final String KEYSTORE_PASSWORD = "changeme";
-    private static final String KEY_ALIAS = "tomcat";
+    private static final String KEYSTORE_PATH = "service1.jks";
+    private static final String KEYSTORE_PASSWORD = "changeit";
+    private static final String KEY_ALIAS = "service1";
 
     public static void main(String[] args) throws Exception {
         Tomcat tomcat = new Tomcat();

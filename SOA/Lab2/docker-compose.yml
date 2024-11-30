@@ -1,3 +1,11 @@
+networks:
+  lab: # here we set the network name
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.20.0.0/24
+
 services:
   service1:
     build:
@@ -6,16 +14,23 @@ services:
       - '8443:8443'
     depends_on:
       - postgres
+    networks:
+      lab:
+        ipv4_address: 172.20.0.2
+
 
   postgres:
     image: postgres:16
     restart: always
-    # ports:
-      # - '5432:5432'
+    ports:
+      - '5432:5432'
     environment:
       POSTGRES_PASSWORD: postgres
 #    volumes:
 #      - db-data:/var/lib/postgresql/data
+    networks:
+      lab:
+        ipv4_address: 172.20.0.3
 
   service2:
     build:
@@ -24,8 +39,11 @@ services:
 #      - "8080:8080"
       - "4848:4848"
       - "8444:8444"
-    volumes:
-      - ./service2/build/libs:/opt/payara/deployments # Добавляем том, чтобы WAR файл можно было обновлять
+#    volumes:
+#      - ./service2/build/libs:/opt/payara/deployments # Добавляем том, чтобы WAR файл можно было обновлять
+    networks:
+      lab:
+        ipv4_address: 172.20.0.4
 
 #volumes:
 #  db-data:
