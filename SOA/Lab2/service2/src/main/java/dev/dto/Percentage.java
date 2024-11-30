@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 public class Percentage {
-    Double value;
+    int value;
 }
