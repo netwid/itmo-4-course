@@ -25,7 +25,8 @@ public class PersonDTO {
 
     private CoordinatesDTO coordinates;
 
-    private Date creationDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private LocalDateTime creationDate;
 
     private Float height;
 
