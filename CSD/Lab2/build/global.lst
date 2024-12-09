@@ -1,4 +1,4 @@
-ARM GAS  /tmp/ccmke41l.s 			page 1
+ARM GAS  /tmp/ccrKWtfx.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -20,143 +20,149 @@ ARM GAS  /tmp/ccmke41l.s 			page 1
   17              	.Ltext0:
   18              		.cfi_sections	.debug_frame
   19              		.file 1 "Core/Src/global.c"
-  20              		.global	Morse
-  21              		.section	.rodata.str1.4,"aMS",%progbits,1
-  22              		.align	2
-  23              	.LC0:
-  24 0000 2E2D00   		.ascii	".-\000"
-  25 0003 00       		.align	2
-  26              	.LC1:
-  27 0004 2D2E2E2E 		.ascii	"-...\000"
-  27      00
-  28 0009 000000   		.align	2
-  29              	.LC2:
-  30 000c 2D2E2D2E 		.ascii	"-.-.\000"
-  30      00
-  31 0011 000000   		.align	2
-  32              	.LC3:
-  33 0014 2D2E2E00 		.ascii	"-..\000"
-  34              		.align	2
-  35              	.LC4:
-  36 0018 2E00     		.ascii	".\000"
-  37 001a 0000     		.align	2
-  38              	.LC5:
-  39 001c 2E2E2D2E 		.ascii	"..-.\000"
-  39      00
-  40 0021 000000   		.align	2
-  41              	.LC6:
-  42 0024 2D2D2E00 		.ascii	"--.\000"
-  43              		.align	2
-  44              	.LC7:
-  45 0028 2E2E2E2E 		.ascii	"....\000"
+  20              		.global	irqEnabled
+  21              		.section	.bss.irqEnabled,"aw",%nobits
+  24              	irqEnabled:
+  25 0000 00       		.space	1
+  26              		.global	Morse
+  27              		.section	.rodata.str1.4,"aMS",%progbits,1
+  28              		.align	2
+  29              	.LC0:
+  30 0000 2E2D00   		.ascii	".-\000"
+  31 0003 00       		.align	2
+  32              	.LC1:
+  33 0004 2D2E2E2E 		.ascii	"-...\000"
+  33      00
+  34 0009 000000   		.align	2
+  35              	.LC2:
+  36 000c 2D2E2D2E 		.ascii	"-.-.\000"
+  36      00
+  37 0011 000000   		.align	2
+  38              	.LC3:
+  39 0014 2D2E2E00 		.ascii	"-..\000"
+  40              		.align	2
+  41              	.LC4:
+  42 0018 2E00     		.ascii	".\000"
+  43 001a 0000     		.align	2
+  44              	.LC5:
+  45 001c 2E2E2D2E 		.ascii	"..-.\000"
   45      00
-  46 002d 000000   		.align	2
-  47              	.LC8:
-  48 0030 2E2E00   		.ascii	"..\000"
-  49 0033 00       		.align	2
-  50              	.LC9:
-  51 0034 2E2D2D2D 		.ascii	".---\000"
+  46 0021 000000   		.align	2
+  47              	.LC6:
+  48 0024 2D2D2E00 		.ascii	"--.\000"
+  49              		.align	2
+  50              	.LC7:
+  51 0028 2E2E2E2E 		.ascii	"....\000"
   51      00
-  52 0039 000000   		.align	2
-ARM GAS  /tmp/ccmke41l.s 			page 2
+  52 002d 000000   		.align	2
+  53              	.LC8:
+  54 0030 2E2E00   		.ascii	"..\000"
+  55 0033 00       		.align	2
+ARM GAS  /tmp/ccrKWtfx.s 			page 2
 
 
-  53              	.LC10:
-  54 003c 2D2E2D00 		.ascii	"-.-\000"
-  55              		.align	2
-  56              	.LC11:
-  57 0040 2E2D2E2E 		.ascii	".-..\000"
+  56              	.LC9:
+  57 0034 2E2D2D2D 		.ascii	".---\000"
   57      00
-  58 0045 000000   		.align	2
-  59              	.LC12:
-  60 0048 2D2D00   		.ascii	"--\000"
-  61 004b 00       		.align	2
-  62              	.LC13:
-  63 004c 2D2E00   		.ascii	"-.\000"
-  64 004f 00       		.align	2
-  65              	.LC14:
-  66 0050 2D2D2D00 		.ascii	"---\000"
-  67              		.align	2
-  68              	.LC15:
-  69 0054 2E2D2D2E 		.ascii	".--.\000"
-  69      00
-  70 0059 000000   		.align	2
-  71              	.LC16:
-  72 005c 2D2D2E2D 		.ascii	"--.-\000"
-  72      00
-  73 0061 000000   		.align	2
-  74              	.LC17:
-  75 0064 2E2D2E00 		.ascii	".-.\000"
-  76              		.align	2
-  77              	.LC18:
-  78 0068 2E2E2E00 		.ascii	"...\000"
-  79              		.align	2
-  80              	.LC19:
-  81 006c 2D00     		.ascii	"-\000"
-  82 006e 0000     		.align	2
-  83              	.LC20:
-  84 0070 2E2E2D00 		.ascii	"..-\000"
+  58 0039 000000   		.align	2
+  59              	.LC10:
+  60 003c 2D2E2D00 		.ascii	"-.-\000"
+  61              		.align	2
+  62              	.LC11:
+  63 0040 2E2D2E2E 		.ascii	".-..\000"
+  63      00
+  64 0045 000000   		.align	2
+  65              	.LC12:
+  66 0048 2D2D00   		.ascii	"--\000"
+  67 004b 00       		.align	2
+  68              	.LC13:
+  69 004c 2D2E00   		.ascii	"-.\000"
+  70 004f 00       		.align	2
+  71              	.LC14:
+  72 0050 2D2D2D00 		.ascii	"---\000"
+  73              		.align	2
+  74              	.LC15:
+  75 0054 2E2D2D2E 		.ascii	".--.\000"
+  75      00
+  76 0059 000000   		.align	2
+  77              	.LC16:
+  78 005c 2D2D2E2D 		.ascii	"--.-\000"
+  78      00
+  79 0061 000000   		.align	2
+  80              	.LC17:
+  81 0064 2E2D2E00 		.ascii	".-.\000"
+  82              		.align	2
+  83              	.LC18:
+  84 0068 2E2E2E00 		.ascii	"...\000"
   85              		.align	2
-  86              	.LC21:
-  87 0074 2E2E2E2D 		.ascii	"...-\000"
-  87      00
-  88 0079 000000   		.align	2
-  89              	.LC22:
-  90 007c 2E2D2D00 		.ascii	".--\000"
+  86              	.LC19:
+  87 006c 2D00     		.ascii	"-\000"
+  88 006e 0000     		.align	2
+  89              	.LC20:
+  90 0070 2E2E2D00 		.ascii	"..-\000"
   91              		.align	2
-  92              	.LC23:
-  93 0080 2D2E2E2D 		.ascii	"-..-\000"
+  92              	.LC21:
+  93 0074 2E2E2E2D 		.ascii	"...-\000"
   93      00
-  94 0085 000000   		.align	2
-  95              	.LC24:
-  96 0088 2D2E2D2D 		.ascii	"-.--\000"
-  96      00
-  97 008d 000000   		.align	2
-  98              	.LC25:
-  99 0090 2D2D2E2E 		.ascii	"--..\000"
+  94 0079 000000   		.align	2
+  95              	.LC22:
+  96 007c 2E2D2D00 		.ascii	".--\000"
+  97              		.align	2
+  98              	.LC23:
+  99 0080 2D2E2E2D 		.ascii	"-..-\000"
   99      00
- 100              		.section	.data.Morse,"aw"
- 101              		.align	2
- 104              	Morse:
-ARM GAS  /tmp/ccmke41l.s 			page 3
+ 100 0085 000000   		.align	2
+ 101              	.LC24:
+ 102 0088 2D2E2D2D 		.ascii	"-.--\000"
+ 102      00
+ 103 008d 000000   		.align	2
+ 104              	.LC25:
+ 105 0090 2D2D2E2E 		.ascii	"--..\000"
+ARM GAS  /tmp/ccrKWtfx.s 			page 3
 
 
- 105 0000 00000000 		.word	.LC0
- 106 0004 04000000 		.word	.LC1
- 107 0008 0C000000 		.word	.LC2
- 108 000c 14000000 		.word	.LC3
- 109 0010 18000000 		.word	.LC4
- 110 0014 1C000000 		.word	.LC5
- 111 0018 24000000 		.word	.LC6
- 112 001c 28000000 		.word	.LC7
- 113 0020 30000000 		.word	.LC8
- 114 0024 34000000 		.word	.LC9
- 115 0028 3C000000 		.word	.LC10
- 116 002c 40000000 		.word	.LC11
- 117 0030 48000000 		.word	.LC12
- 118 0034 4C000000 		.word	.LC13
- 119 0038 50000000 		.word	.LC14
- 120 003c 54000000 		.word	.LC15
- 121 0040 5C000000 		.word	.LC16
- 122 0044 64000000 		.word	.LC17
- 123 0048 68000000 		.word	.LC18
- 124 004c 6C000000 		.word	.LC19
- 125 0050 70000000 		.word	.LC20
- 126 0054 74000000 		.word	.LC21
- 127 0058 7C000000 		.word	.LC22
- 128 005c 80000000 		.word	.LC23
- 129 0060 88000000 		.word	.LC24
- 130 0064 90000000 		.word	.LC25
- 131              		.text
- 132              	.Letext0:
- 133              		.file 2 "Core/Inc/global.h"
-ARM GAS  /tmp/ccmke41l.s 			page 4
+ 105      00
+ 106              		.section	.data.Morse,"aw"
+ 107              		.align	2
+ 110              	Morse:
+ 111 0000 00000000 		.word	.LC0
+ 112 0004 04000000 		.word	.LC1
+ 113 0008 0C000000 		.word	.LC2
+ 114 000c 14000000 		.word	.LC3
+ 115 0010 18000000 		.word	.LC4
+ 116 0014 1C000000 		.word	.LC5
+ 117 0018 24000000 		.word	.LC6
+ 118 001c 28000000 		.word	.LC7
+ 119 0020 30000000 		.word	.LC8
+ 120 0024 34000000 		.word	.LC9
+ 121 0028 3C000000 		.word	.LC10
+ 122 002c 40000000 		.word	.LC11
+ 123 0030 48000000 		.word	.LC12
+ 124 0034 4C000000 		.word	.LC13
+ 125 0038 50000000 		.word	.LC14
+ 126 003c 54000000 		.word	.LC15
+ 127 0040 5C000000 		.word	.LC16
+ 128 0044 64000000 		.word	.LC17
+ 129 0048 68000000 		.word	.LC18
+ 130 004c 6C000000 		.word	.LC19
+ 131 0050 70000000 		.word	.LC20
+ 132 0054 74000000 		.word	.LC21
+ 133 0058 7C000000 		.word	.LC22
+ 134 005c 80000000 		.word	.LC23
+ 135 0060 88000000 		.word	.LC24
+ 136 0064 90000000 		.word	.LC25
+ 137              		.text
+ 138              	.Letext0:
+ 139              		.file 2 "Core/Inc/global.h"
+ARM GAS  /tmp/ccrKWtfx.s 			page 4
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 global.c
-     /tmp/ccmke41l.s:104    .data.Morse:00000000 Morse
-     /tmp/ccmke41l.s:22     .rodata.str1.4:00000000 $d
-     /tmp/ccmke41l.s:101    .data.Morse:00000000 $d
+     /tmp/ccrKWtfx.s:24     .bss.irqEnabled:00000000 irqEnabled
+     /tmp/ccrKWtfx.s:25     .bss.irqEnabled:00000000 $d
+     /tmp/ccrKWtfx.s:110    .data.Morse:00000000 Morse
+     /tmp/ccrKWtfx.s:28     .rodata.str1.4:00000000 $d
+     /tmp/ccrKWtfx.s:107    .data.Morse:00000000 $d
 
 NO UNDEFINED SYMBOLS

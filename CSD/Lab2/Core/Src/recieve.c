@@ -7,11 +7,11 @@
 
 void TurnLedOn()
 {
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_SET);
 }
 void TurnLedOff()
 {
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, GPIO_PIN_13, GPIO_PIN_RESET);
 }
 
 static char currentChar = 0;
@@ -86,11 +86,12 @@ static uint8_t receivedChar;
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-  if (receivedChar == '+') {
-    // DisableIRQ(huart);
+  if (receivedChar == '+')
+  {
+    irqEnabled = 0;
     return;
   }
-  
+
   QueuePush(receivedChar);
   HAL_UART_Receive_IT(huart, &receivedChar, 1);
 }
@@ -102,7 +103,7 @@ void HandleReceive(UART_HandleTypeDef *huart)
   {
     if (receivedChar == '+')
     {
-      EnableIRQ();
+      irqEnabled = 1;
       HAL_UART_Receive_IT(huart, &receivedChar, 1);
       return;
     }

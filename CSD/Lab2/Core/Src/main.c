@@ -98,6 +98,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+    
     HandleTransmit(&huart6);
     HandleReceive(&huart6);
     /* USER CODE END WHILE */

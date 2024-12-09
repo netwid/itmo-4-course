@@ -1,4 +1,4 @@
-ARM GAS  /tmp/cce3sDIa.s 			page 1
+ARM GAS  /tmp/ccKr5asx.s 			page 1
 
 
    1              		.cpu cortex-m4
@@ -58,7 +58,7 @@ ARM GAS  /tmp/cce3sDIa.s 			page 1
   19:Core/Src/transmit.c ****     GPIO_PinState currentState = HAL_GPIO_ReadPin(BUTTON_GPIO_PORT, BUTTON_PIN);
   38              		.loc 1 19 5 view .LVU1
   39              		.loc 1 19 34 is_stmt 0 view .LVU2
-ARM GAS  /tmp/cce3sDIa.s 			page 2
+ARM GAS  /tmp/ccKr5asx.s 			page 2
 
 
   40 0002 4FF40041 		mov	r1, #32768
@@ -118,7 +118,7 @@ ARM GAS  /tmp/cce3sDIa.s 			page 1
   44:Core/Src/transmit.c ****     }
   45:Core/Src/transmit.c **** 
   46:Core/Src/transmit.c ****     return BUTTON_NO_PRESS;
-ARM GAS  /tmp/cce3sDIa.s 			page 3
+ARM GAS  /tmp/ccKr5asx.s 			page 3
 
 
   70              		.loc 1 46 12 view .LVU14
@@ -178,7 +178,7 @@ ARM GAS  /tmp/cce3sDIa.s 			page 1
   42:Core/Src/transmit.c ****         }
  110              		.loc 1 42 13 is_stmt 1 view .LVU29
   42:Core/Src/transmit.c ****         }
-ARM GAS  /tmp/cce3sDIa.s 			page 4
+ARM GAS  /tmp/ccKr5asx.s 			page 4
 
 
  111              		.loc 1 42 29 is_stmt 0 view .LVU30
@@ -210,7 +210,7 @@ ARM GAS  /tmp/cce3sDIa.s 			page 1
  138              	.LVL10:
  139              	.LFB135:
   48:Core/Src/transmit.c **** 
-  49:Core/Src/transmit.c **** void SendUART(UART_HandleTypeDef *huart1, char *morseCode)
+  49:Core/Src/transmit.c **** void SendUART(UART_HandleTypeDef *huart, char *morseCode)
   50:Core/Src/transmit.c **** {
  140              		.loc 1 50 1 is_stmt 1 view -0
  141              		.cfi_startproc
@@ -238,23 +238,23 @@ ARM GAS  /tmp/cce3sDIa.s 			page 1
  162 0008 0024     		movs	r4, #0
  163              	.LVL12:
  164              	.L12:
-ARM GAS  /tmp/cce3sDIa.s 			page 5
+ARM GAS  /tmp/ccKr5asx.s 			page 5
 
 
  165              		.loc 1 51 23 is_stmt 1 discriminator 1 view .LVU37
  166 000a 192C     		cmp	r4, #25
- 167 000c 15D8     		bhi	.L17
+ 167 000c 1FD8     		bhi	.L20
   52:Core/Src/transmit.c ****     {
   53:Core/Src/transmit.c ****         if (strcmp(morseCode, Morse[i]) == 0)
  168              		.loc 1 53 9 view .LVU38
  169              		.loc 1 53 13 is_stmt 0 view .LVU39
- 170 000e 0F4B     		ldr	r3, .L19
+ 170 000e 184B     		ldr	r3, .L22
  171 0010 53F82410 		ldr	r1, [r3, r4, lsl #2]
  172 0014 2846     		mov	r0, r5
  173 0016 FFF7FEFF 		bl	strcmp
  174              	.LVL13:
  175              		.loc 1 53 12 discriminator 1 view .LVU40
- 176 001a 08B1     		cbz	r0, .L18
+ 176 001a 08B1     		cbz	r0, .L21
   51:Core/Src/transmit.c ****     for (int i = 0; i < sizeof(Morse) / sizeof(Morse[0]); i++)
  177              		.loc 1 51 60 is_stmt 1 discriminator 2 view .LVU41
  178 001c 0134     		adds	r4, r4, #1
@@ -262,7 +262,7 @@ ARM GAS  /tmp/cce3sDIa.s 			page 1
   51:Core/Src/transmit.c ****     for (int i = 0; i < sizeof(Morse) / sizeof(Morse[0]); i++)
  180              		.loc 1 51 60 is_stmt 0 discriminator 2 view .LVU42
  181 001e F4E7     		b	.L12
- 182              	.L18:
+ 182              	.L21:
  183              	.LBB3:
   54:Core/Src/transmit.c ****         {
   55:Core/Src/transmit.c ****             char letter = 'a' + i;
@@ -272,332 +272,388 @@ ARM GAS  /tmp/cce3sDIa.s 			page 1
  187              	.LVL15:
  188              		.loc 1 55 18 view .LVU45
  189 0022 8DF80740 		strb	r4, [sp, #7]
-  56:Core/Src/transmit.c ****             HAL_UART_Transmit(huart1, (uint8_t *)&letter, 1, HAL_MAX_DELAY);
+  56:Core/Src/transmit.c ****             if (irqEnabled) {
  190              		.loc 1 56 13 is_stmt 1 view .LVU46
- 191 0026 4FF0FF33 		mov	r3, #-1
- 192 002a 0122     		movs	r2, #1
- 193 002c 0DF10701 		add	r1, sp, #7
- 194 0030 3046     		mov	r0, r6
- 195 0032 FFF7FEFF 		bl	HAL_UART_Transmit
- 196              	.LVL16:
-  57:Core/Src/transmit.c ****             return;
- 197              		.loc 1 57 13 view .LVU47
- 198              	.L11:
- 199              		.loc 1 57 13 is_stmt 0 view .LVU48
- 200              	.LBE3:
- 201              	.LBE2:
-  58:Core/Src/transmit.c ****         }
-  59:Core/Src/transmit.c ****     }
-  60:Core/Src/transmit.c ****     HAL_UART_Transmit(huart1, (uint8_t *)"?", 1, HAL_MAX_DELAY);
-  61:Core/Src/transmit.c **** }
- 202              		.loc 1 61 1 view .LVU49
- 203 0036 02B0     		add	sp, sp, #8
- 204              	.LCFI3:
- 205              		.cfi_remember_state
- 206              		.cfi_def_cfa_offset 16
- 207              		@ sp needed
- 208 0038 70BD     		pop	{r4, r5, r6, pc}
- 209              	.LVL17:
-ARM GAS  /tmp/cce3sDIa.s 			page 6
+ 191              		.loc 1 56 17 is_stmt 0 view .LVU47
+ 192 0026 134B     		ldr	r3, .L22+4
+ 193 0028 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 194              		.loc 1 56 16 view .LVU48
+ 195 002a 3BB1     		cbz	r3, .L14
+  57:Core/Src/transmit.c ****                 HAL_UART_Transmit_IT(huart, (uint8_t *)&letter, 1);
+ 196              		.loc 1 57 17 is_stmt 1 view .LVU49
+ 197 002c 0122     		movs	r2, #1
+ 198 002e 0DF10701 		add	r1, sp, #7
+ 199 0032 3046     		mov	r0, r6
+ 200 0034 FFF7FEFF 		bl	HAL_UART_Transmit_IT
+ 201              	.LVL16:
+ 202              	.L11:
+ 203              		.loc 1 57 17 is_stmt 0 view .LVU50
+ 204              	.LBE3:
+ 205              	.LBE2:
+  58:Core/Src/transmit.c ****             } else {
+  59:Core/Src/transmit.c ****                 HAL_UART_Transmit(huart, (uint8_t *)&letter, 1, HAL_MAX_DELAY);
+  60:Core/Src/transmit.c ****             }
+  61:Core/Src/transmit.c ****             return;
+  62:Core/Src/transmit.c ****         }
+  63:Core/Src/transmit.c ****     }
+  64:Core/Src/transmit.c **** 
+  65:Core/Src/transmit.c ****     if (irqEnabled) {
+ARM GAS  /tmp/ccKr5asx.s 			page 6
 
 
- 210              	.L17:
- 211              	.LCFI4:
- 212              		.cfi_restore_state
-  60:Core/Src/transmit.c **** }
- 213              		.loc 1 60 5 is_stmt 1 view .LVU50
- 214 003a 4FF0FF33 		mov	r3, #-1
- 215 003e 0122     		movs	r2, #1
- 216 0040 0349     		ldr	r1, .L19+4
- 217 0042 3046     		mov	r0, r6
- 218 0044 FFF7FEFF 		bl	HAL_UART_Transmit
- 219              	.LVL18:
- 220 0048 F5E7     		b	.L11
- 221              	.L20:
- 222 004a 00BF     		.align	2
- 223              	.L19:
- 224 004c 00000000 		.word	Morse
- 225 0050 00000000 		.word	.LC0
- 226              		.cfi_endproc
- 227              	.LFE135:
- 229              		.section	.text.HandleTransmit,"ax",%progbits
- 230              		.align	1
- 231              		.global	HandleTransmit
- 232              		.syntax unified
- 233              		.thumb
- 234              		.thumb_func
- 236              	HandleTransmit:
- 237              	.LVL19:
- 238              	.LFB136:
-  62:Core/Src/transmit.c **** 
-  63:Core/Src/transmit.c **** static char morseBuffer[8];
-  64:Core/Src/transmit.c **** static uint8_t morseIndex = 0;
-  65:Core/Src/transmit.c **** static uint32_t lastButtonActionTime = 0;
-  66:Core/Src/transmit.c **** 
-  67:Core/Src/transmit.c **** void HandleTransmit(UART_HandleTypeDef *huart1)
-  68:Core/Src/transmit.c **** {
- 239              		.loc 1 68 1 view -0
- 240              		.cfi_startproc
- 241              		@ args = 0, pretend = 0, frame = 0
- 242              		@ frame_needed = 0, uses_anonymous_args = 0
- 243              		.loc 1 68 1 is_stmt 0 view .LVU52
- 244 0000 38B5     		push	{r3, r4, r5, lr}
- 245              	.LCFI5:
- 246              		.cfi_def_cfa_offset 16
- 247              		.cfi_offset 3, -16
- 248              		.cfi_offset 4, -12
- 249              		.cfi_offset 5, -8
- 250              		.cfi_offset 14, -4
- 251 0002 0546     		mov	r5, r0
-  69:Core/Src/transmit.c ****     ButtonPressType pressType = GetButtonState();
- 252              		.loc 1 69 5 is_stmt 1 view .LVU53
- 253              		.loc 1 69 33 is_stmt 0 view .LVU54
- 254 0004 FFF7FEFF 		bl	GetButtonState
- 255              	.LVL20:
- 256              		.loc 1 69 33 view .LVU55
- 257 0008 0446     		mov	r4, r0
- 258              	.LVL21:
-  70:Core/Src/transmit.c ****     uint32_t currentTime = HAL_GetTick();
-ARM GAS  /tmp/cce3sDIa.s 			page 7
+  66:Core/Src/transmit.c ****         HAL_UART_Transmit_IT(huart, (uint8_t *)"?", 1);
+  67:Core/Src/transmit.c ****     } else {
+  68:Core/Src/transmit.c ****         HAL_UART_Transmit(huart, (uint8_t *)"?", 1, HAL_MAX_DELAY);
+  69:Core/Src/transmit.c ****     }
+  70:Core/Src/transmit.c **** }
+ 206              		.loc 1 70 1 view .LVU51
+ 207 0038 02B0     		add	sp, sp, #8
+ 208              	.LCFI3:
+ 209              		.cfi_remember_state
+ 210              		.cfi_def_cfa_offset 16
+ 211              		@ sp needed
+ 212 003a 70BD     		pop	{r4, r5, r6, pc}
+ 213              	.LVL17:
+ 214              	.L14:
+ 215              	.LCFI4:
+ 216              		.cfi_restore_state
+ 217              	.LBB5:
+ 218              	.LBB4:
+  59:Core/Src/transmit.c ****             }
+ 219              		.loc 1 59 17 is_stmt 1 view .LVU52
+ 220 003c 4FF0FF33 		mov	r3, #-1
+ 221 0040 0122     		movs	r2, #1
+ 222 0042 0DF10701 		add	r1, sp, #7
+ 223 0046 3046     		mov	r0, r6
+ 224 0048 FFF7FEFF 		bl	HAL_UART_Transmit
+ 225              	.LVL18:
+  61:Core/Src/transmit.c ****         }
+ 226              		.loc 1 61 13 view .LVU53
+ 227 004c F4E7     		b	.L11
+ 228              	.LVL19:
+ 229              	.L20:
+  61:Core/Src/transmit.c ****         }
+ 230              		.loc 1 61 13 is_stmt 0 view .LVU54
+ 231              	.LBE4:
+ 232              	.LBE5:
+  65:Core/Src/transmit.c ****         HAL_UART_Transmit_IT(huart, (uint8_t *)"?", 1);
+ 233              		.loc 1 65 5 is_stmt 1 view .LVU55
+  65:Core/Src/transmit.c ****         HAL_UART_Transmit_IT(huart, (uint8_t *)"?", 1);
+ 234              		.loc 1 65 9 is_stmt 0 view .LVU56
+ 235 004e 094B     		ldr	r3, .L22+4
+ 236 0050 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  65:Core/Src/transmit.c ****         HAL_UART_Transmit_IT(huart, (uint8_t *)"?", 1);
+ 237              		.loc 1 65 8 view .LVU57
+ 238 0052 2BB1     		cbz	r3, .L18
+  66:Core/Src/transmit.c ****     } else {
+ 239              		.loc 1 66 9 is_stmt 1 view .LVU58
+ 240 0054 0122     		movs	r2, #1
+ 241 0056 0849     		ldr	r1, .L22+8
+ 242 0058 3046     		mov	r0, r6
+ 243 005a FFF7FEFF 		bl	HAL_UART_Transmit_IT
+ 244              	.LVL20:
+ 245 005e EBE7     		b	.L11
+ 246              	.L18:
+  68:Core/Src/transmit.c ****     }
+ 247              		.loc 1 68 9 view .LVU59
+ 248 0060 4FF0FF33 		mov	r3, #-1
+ 249 0064 0122     		movs	r2, #1
+ARM GAS  /tmp/ccKr5asx.s 			page 7
 
 
- 259              		.loc 1 70 5 is_stmt 1 view .LVU56
- 260              		.loc 1 70 28 is_stmt 0 view .LVU57
- 261 000a FFF7FEFF 		bl	HAL_GetTick
- 262              	.LVL22:
- 263 000e 0346     		mov	r3, r0
- 264              	.LVL23:
+ 250 0066 0449     		ldr	r1, .L22+8
+ 251 0068 3046     		mov	r0, r6
+ 252 006a FFF7FEFF 		bl	HAL_UART_Transmit
+ 253              	.LVL21:
+ 254 006e E3E7     		b	.L11
+ 255              	.L23:
+ 256              		.align	2
+ 257              	.L22:
+ 258 0070 00000000 		.word	Morse
+ 259 0074 00000000 		.word	irqEnabled
+ 260 0078 00000000 		.word	.LC0
+ 261              		.cfi_endproc
+ 262              	.LFE135:
+ 264              		.section	.text.HandleTransmit,"ax",%progbits
+ 265              		.align	1
+ 266              		.global	HandleTransmit
+ 267              		.syntax unified
+ 268              		.thumb
+ 269              		.thumb_func
+ 271              	HandleTransmit:
+ 272              	.LVL22:
+ 273              	.LFB136:
   71:Core/Src/transmit.c **** 
-  72:Core/Src/transmit.c ****     if (pressType == BUTTON_SHORT_PRESS)
- 265              		.loc 1 72 5 is_stmt 1 view .LVU58
- 266              		.loc 1 72 8 is_stmt 0 view .LVU59
- 267 0010 012C     		cmp	r4, #1
- 268 0012 0CD0     		beq	.L26
-  73:Core/Src/transmit.c ****     {
-  74:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
-  75:Core/Src/transmit.c ****         {
-  76:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
-  77:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
-  78:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
-  79:Core/Src/transmit.c ****         }
-  80:Core/Src/transmit.c ****     }
-  81:Core/Src/transmit.c ****     else if (pressType == BUTTON_LONG_PRESS)
- 269              		.loc 1 81 10 is_stmt 1 view .LVU60
- 270              		.loc 1 81 13 is_stmt 0 view .LVU61
- 271 0014 022C     		cmp	r4, #2
- 272 0016 1AD0     		beq	.L27
- 273              	.LVL24:
- 274              	.L23:
+  72:Core/Src/transmit.c **** static char morseBuffer[8];
+  73:Core/Src/transmit.c **** static uint8_t morseIndex = 0;
+  74:Core/Src/transmit.c **** static uint32_t lastButtonActionTime = 0;
+  75:Core/Src/transmit.c **** 
+  76:Core/Src/transmit.c **** void HandleTransmit(UART_HandleTypeDef *huart)
+  77:Core/Src/transmit.c **** {
+ 274              		.loc 1 77 1 view -0
+ 275              		.cfi_startproc
+ 276              		@ args = 0, pretend = 0, frame = 0
+ 277              		@ frame_needed = 0, uses_anonymous_args = 0
+ 278              		.loc 1 77 1 is_stmt 0 view .LVU61
+ 279 0000 38B5     		push	{r3, r4, r5, lr}
+ 280              	.LCFI5:
+ 281              		.cfi_def_cfa_offset 16
+ 282              		.cfi_offset 3, -16
+ 283              		.cfi_offset 4, -12
+ 284              		.cfi_offset 5, -8
+ 285              		.cfi_offset 14, -4
+ 286 0002 0546     		mov	r5, r0
+  78:Core/Src/transmit.c ****     ButtonPressType pressType = GetButtonState();
+ 287              		.loc 1 78 5 is_stmt 1 view .LVU62
+ 288              		.loc 1 78 33 is_stmt 0 view .LVU63
+ 289 0004 FFF7FEFF 		bl	GetButtonState
+ 290              	.LVL23:
+ 291              		.loc 1 78 33 view .LVU64
+ 292 0008 0446     		mov	r4, r0
+ 293              	.LVL24:
+  79:Core/Src/transmit.c ****     uint32_t currentTime = HAL_GetTick();
+ 294              		.loc 1 79 5 is_stmt 1 view .LVU65
+ 295              		.loc 1 79 28 is_stmt 0 view .LVU66
+ 296 000a FFF7FEFF 		bl	HAL_GetTick
+ 297              	.LVL25:
+ 298 000e 0346     		mov	r3, r0
+ 299              	.LVL26:
+ARM GAS  /tmp/ccKr5asx.s 			page 8
+
+
+  80:Core/Src/transmit.c **** 
+  81:Core/Src/transmit.c ****     if (pressType == BUTTON_SHORT_PRESS)
+ 300              		.loc 1 81 5 is_stmt 1 view .LVU67
+ 301              		.loc 1 81 8 is_stmt 0 view .LVU68
+ 302 0010 012C     		cmp	r4, #1
+ 303 0012 0CD0     		beq	.L29
   82:Core/Src/transmit.c ****     {
   83:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
   84:Core/Src/transmit.c ****         {
-  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
+  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
   86:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
   87:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
   88:Core/Src/transmit.c ****         }
   89:Core/Src/transmit.c ****     }
-  90:Core/Src/transmit.c **** 
-  91:Core/Src/transmit.c ****     if ((currentTime - lastButtonActionTime) > IDLE_TIMEOUT && morseIndex > 0)
- 275              		.loc 1 91 5 is_stmt 1 view .LVU62
- 276              		.loc 1 91 22 is_stmt 0 view .LVU63
- 277 0018 194A     		ldr	r2, .L29
- 278 001a 1268     		ldr	r2, [r2]
- 279 001c 9B1A     		subs	r3, r3, r2
- 280              	.LVL25:
- 281              		.loc 1 91 8 view .LVU64
- 282 001e 40F2DC52 		movw	r2, #1500
- 283 0022 9342     		cmp	r3, r2
- 284 0024 02D9     		bls	.L21
- 285              		.loc 1 91 75 discriminator 1 view .LVU65
- 286 0026 174B     		ldr	r3, .L29+4
- 287 0028 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
- 288              		.loc 1 91 61 discriminator 1 view .LVU66
- 289 002a 03BB     		cbnz	r3, .L28
- 290              	.L21:
-  92:Core/Src/transmit.c ****     {
-  93:Core/Src/transmit.c ****         SendUART(huart1, (char *)morseBuffer);
-  94:Core/Src/transmit.c ****         morseIndex = 0;
-  95:Core/Src/transmit.c ****     }
-ARM GAS  /tmp/cce3sDIa.s 			page 8
-
-
-  96:Core/Src/transmit.c **** }...
- 291              		.loc 1 96 1 view .LVU67
- 292 002c 38BD     		pop	{r3, r4, r5, pc}
- 293              	.LVL26:
- 294              	.L26:
-  74:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
- 295              		.loc 1 74 9 is_stmt 1 view .LVU68
-  74:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
- 296              		.loc 1 74 24 is_stmt 0 view .LVU69
- 297 002e 154A     		ldr	r2, .L29+4
- 298 0030 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
-  74:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
- 299              		.loc 1 74 12 view .LVU70
- 300 0032 062A     		cmp	r2, #6
- 301 0034 F0D8     		bhi	.L23
-  76:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
- 302              		.loc 1 76 13 is_stmt 1 view .LVU71
-  76:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
- 303              		.loc 1 76 35 is_stmt 0 view .LVU72
- 304 0036 511C     		adds	r1, r2, #1
- 305 0038 C9B2     		uxtb	r1, r1
- 306 003a 1248     		ldr	r0, .L29+4
- 307              	.LVL27:
-  76:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
- 308              		.loc 1 76 35 view .LVU73
- 309 003c 0170     		strb	r1, [r0]
-  76:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
- 310              		.loc 1 76 39 view .LVU74
- 311 003e 1248     		ldr	r0, .L29+8
- 312 0040 2E24     		movs	r4, #46
- 313              	.LVL28:
-  76:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
- 314              		.loc 1 76 39 view .LVU75
- 315 0042 8454     		strb	r4, [r0, r2]
-  77:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
- 316              		.loc 1 77 13 is_stmt 1 view .LVU76
-  77:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
- 317              		.loc 1 77 37 is_stmt 0 view .LVU77
- 318 0044 0022     		movs	r2, #0
- 319 0046 4254     		strb	r2, [r0, r1]
-  78:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
- 320              		.loc 1 78 13 is_stmt 1 view .LVU78
-  78:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
- 321              		.loc 1 78 34 is_stmt 0 view .LVU79
- 322 0048 0D4A     		ldr	r2, .L29
- 323 004a 1360     		str	r3, [r2]
- 324 004c E4E7     		b	.L23
- 325              	.LVL29:
- 326              	.L27:
+  90:Core/Src/transmit.c ****     else if (pressType == BUTTON_LONG_PRESS)
+ 304              		.loc 1 90 10 is_stmt 1 view .LVU69
+ 305              		.loc 1 90 13 is_stmt 0 view .LVU70
+ 306 0014 022C     		cmp	r4, #2
+ 307 0016 1AD0     		beq	.L30
+ 308              	.LVL27:
+ 309              	.L26:
+  91:Core/Src/transmit.c ****     {
+  92:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
+  93:Core/Src/transmit.c ****         {
+  94:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
+  95:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
+  96:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
+  97:Core/Src/transmit.c ****         }
+  98:Core/Src/transmit.c ****     }
+  99:Core/Src/transmit.c **** 
+ 100:Core/Src/transmit.c ****     if ((currentTime - lastButtonActionTime) > IDLE_TIMEOUT && morseIndex > 0)
+ 310              		.loc 1 100 5 is_stmt 1 view .LVU71
+ 311              		.loc 1 100 22 is_stmt 0 view .LVU72
+ 312 0018 194A     		ldr	r2, .L32
+ 313 001a 1268     		ldr	r2, [r2]
+ 314 001c 9B1A     		subs	r3, r3, r2
+ 315              	.LVL28:
+ 316              		.loc 1 100 8 view .LVU73
+ 317 001e 40F2DC52 		movw	r2, #1500
+ 318 0022 9342     		cmp	r3, r2
+ 319 0024 02D9     		bls	.L24
+ 320              		.loc 1 100 75 discriminator 1 view .LVU74
+ 321 0026 174B     		ldr	r3, .L32+4
+ 322 0028 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 323              		.loc 1 100 61 discriminator 1 view .LVU75
+ 324 002a 03BB     		cbnz	r3, .L31
+ 325              	.L24:
+ 101:Core/Src/transmit.c ****     {
+ 102:Core/Src/transmit.c ****         SendUART(huart, (char *)morseBuffer);
+ 103:Core/Src/transmit.c ****         morseIndex = 0;
+ 104:Core/Src/transmit.c ****     }
+ 105:Core/Src/transmit.c **** }...
+ 326              		.loc 1 105 1 view .LVU76
+ 327 002c 38BD     		pop	{r3, r4, r5, pc}
+ 328              	.LVL29:
+ 329              	.L29:
   83:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
- 327              		.loc 1 83 9 is_stmt 1 view .LVU80
-  83:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
- 328              		.loc 1 83 24 is_stmt 0 view .LVU81
- 329 004e 0D4A     		ldr	r2, .L29+4
- 330 0050 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
-  83:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
- 331              		.loc 1 83 12 view .LVU82
-ARM GAS  /tmp/cce3sDIa.s 			page 9
+ARM GAS  /tmp/ccKr5asx.s 			page 9
 
 
- 332 0052 062A     		cmp	r2, #6
- 333 0054 E0D8     		bhi	.L23
-  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
- 334              		.loc 1 85 13 is_stmt 1 view .LVU83
-  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
- 335              		.loc 1 85 35 is_stmt 0 view .LVU84
- 336 0056 511C     		adds	r1, r2, #1
- 337 0058 C9B2     		uxtb	r1, r1
- 338 005a 0A48     		ldr	r0, .L29+4
- 339              	.LVL30:
-  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
- 340              		.loc 1 85 35 view .LVU85
- 341 005c 0170     		strb	r1, [r0]
-  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
- 342              		.loc 1 85 39 view .LVU86
- 343 005e 0A48     		ldr	r0, .L29+8
- 344 0060 2D24     		movs	r4, #45
- 345              	.LVL31:
-  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
- 346              		.loc 1 85 39 view .LVU87
- 347 0062 8454     		strb	r4, [r0, r2]
+ 330              		.loc 1 83 9 is_stmt 1 view .LVU77
+  83:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
+ 331              		.loc 1 83 24 is_stmt 0 view .LVU78
+ 332 002e 154A     		ldr	r2, .L32+4
+ 333 0030 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+  83:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
+ 334              		.loc 1 83 12 view .LVU79
+ 335 0032 062A     		cmp	r2, #6
+ 336 0034 F0D8     		bhi	.L26
+  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
+ 337              		.loc 1 85 13 is_stmt 1 view .LVU80
+  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
+ 338              		.loc 1 85 35 is_stmt 0 view .LVU81
+ 339 0036 511C     		adds	r1, r2, #1
+ 340 0038 C9B2     		uxtb	r1, r1
+ 341 003a 1248     		ldr	r0, .L32+4
+ 342              	.LVL30:
+  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
+ 343              		.loc 1 85 35 view .LVU82
+ 344 003c 0170     		strb	r1, [r0]
+  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
+ 345              		.loc 1 85 39 view .LVU83
+ 346 003e 1248     		ldr	r0, .L32+8
+ 347 0040 2E24     		movs	r4, #46
+ 348              	.LVL31:
+  85:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '.';
+ 349              		.loc 1 85 39 view .LVU84
+ 350 0042 8454     		strb	r4, [r0, r2]
   86:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
- 348              		.loc 1 86 13 is_stmt 1 view .LVU88
+ 351              		.loc 1 86 13 is_stmt 1 view .LVU85
   86:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
- 349              		.loc 1 86 37 is_stmt 0 view .LVU89
- 350 0064 0022     		movs	r2, #0
- 351 0066 4254     		strb	r2, [r0, r1]
+ 352              		.loc 1 86 37 is_stmt 0 view .LVU86
+ 353 0044 0022     		movs	r2, #0
+ 354 0046 4254     		strb	r2, [r0, r1]
   87:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
- 352              		.loc 1 87 13 is_stmt 1 view .LVU90
+ 355              		.loc 1 87 13 is_stmt 1 view .LVU87
   87:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
- 353              		.loc 1 87 34 is_stmt 0 view .LVU91
- 354 0068 054A     		ldr	r2, .L29
- 355 006a 1360     		str	r3, [r2]
- 356 006c D4E7     		b	.L23
- 357              	.LVL32:
- 358              	.L28:
-  93:Core/Src/transmit.c ****         SendUART(huart1, (char *)morseBuffer);
- 359              		.loc 1 93 9 is_stmt 1 view .LVU92
- 360 006e 0649     		ldr	r1, .L29+8
- 361 0070 2846     		mov	r0, r5
- 362 0072 FFF7FEFF 		bl	SendUART
- 363              	.LVL33:
-  94:Core/Src/transmit.c ****         morseIndex = 0;
- 364              		.loc 1 94 9 view .LVU93
-  94:Core/Src/transmit.c ****         morseIndex = 0;
- 365              		.loc 1 94 20 is_stmt 0 view .LVU94
- 366 0076 034B     		ldr	r3, .L29+4
- 367 0078 0022     		movs	r2, #0
- 368 007a 1A70     		strb	r2, [r3]
- 369              		.loc 1 96 1 view .LVU95
- 370 007c D6E7     		b	.L21
- 371              	.L30:
- 372 007e 00BF     		.align	2
- 373              	.L29:
- 374 0080 00000000 		.word	lastButtonActionTime
- 375 0084 00000000 		.word	morseIndex
- 376 0088 00000000 		.word	morseBuffer
-ARM GAS  /tmp/cce3sDIa.s 			page 10
+ 356              		.loc 1 87 34 is_stmt 0 view .LVU88
+ 357 0048 0D4A     		ldr	r2, .L32
+ 358 004a 1360     		str	r3, [r2]
+ 359 004c E4E7     		b	.L26
+ 360              	.LVL32:
+ 361              	.L30:
+  92:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
+ 362              		.loc 1 92 9 is_stmt 1 view .LVU89
+  92:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
+ 363              		.loc 1 92 24 is_stmt 0 view .LVU90
+ 364 004e 0D4A     		ldr	r2, .L32+4
+ 365 0050 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+  92:Core/Src/transmit.c ****         if (morseIndex < sizeof(morseBuffer) - 1)
+ 366              		.loc 1 92 12 view .LVU91
+ 367 0052 062A     		cmp	r2, #6
+ 368 0054 E0D8     		bhi	.L26
+  94:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
+ 369              		.loc 1 94 13 is_stmt 1 view .LVU92
+  94:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
+ 370              		.loc 1 94 35 is_stmt 0 view .LVU93
+ARM GAS  /tmp/ccKr5asx.s 			page 10
 
 
- 377              		.cfi_endproc
- 378              	.LFE136:
- 380              		.section	.bss.lastButtonActionTime,"aw",%nobits
- 381              		.align	2
- 384              	lastButtonActionTime:
- 385 0000 00000000 		.space	4
- 386              		.section	.bss.morseIndex,"aw",%nobits
- 389              	morseIndex:
- 390 0000 00       		.space	1
- 391              		.section	.bss.morseBuffer,"aw",%nobits
- 392              		.align	2
- 395              	morseBuffer:
- 396 0000 00000000 		.space	8
- 396      00000000 
- 397              		.section	.bss.buttonPressTime,"aw",%nobits
- 398              		.align	2
- 401              	buttonPressTime:
- 402 0000 00000000 		.space	4
- 403              		.text
- 404              	.Letext0:
- 405              		.file 2 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
- 406              		.file 3 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
- 407              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
- 408              		.file 5 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
- 409              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
- 410              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
- 411              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
- 412              		.file 9 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/string.h"
- 413              		.file 10 "Core/Inc/global.h"
- 414              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
-ARM GAS  /tmp/cce3sDIa.s 			page 11
+ 371 0056 511C     		adds	r1, r2, #1
+ 372 0058 C9B2     		uxtb	r1, r1
+ 373 005a 0A48     		ldr	r0, .L32+4
+ 374              	.LVL33:
+  94:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
+ 375              		.loc 1 94 35 view .LVU94
+ 376 005c 0170     		strb	r1, [r0]
+  94:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
+ 377              		.loc 1 94 39 view .LVU95
+ 378 005e 0A48     		ldr	r0, .L32+8
+ 379 0060 2D24     		movs	r4, #45
+ 380              	.LVL34:
+  94:Core/Src/transmit.c ****             morseBuffer[morseIndex++] = '-';
+ 381              		.loc 1 94 39 view .LVU96
+ 382 0062 8454     		strb	r4, [r0, r2]
+  95:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
+ 383              		.loc 1 95 13 is_stmt 1 view .LVU97
+  95:Core/Src/transmit.c ****             morseBuffer[morseIndex] = '\0';
+ 384              		.loc 1 95 37 is_stmt 0 view .LVU98
+ 385 0064 0022     		movs	r2, #0
+ 386 0066 4254     		strb	r2, [r0, r1]
+  96:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
+ 387              		.loc 1 96 13 is_stmt 1 view .LVU99
+  96:Core/Src/transmit.c ****             lastButtonActionTime = currentTime;
+ 388              		.loc 1 96 34 is_stmt 0 view .LVU100
+ 389 0068 054A     		ldr	r2, .L32
+ 390 006a 1360     		str	r3, [r2]
+ 391 006c D4E7     		b	.L26
+ 392              	.LVL35:
+ 393              	.L31:
+ 102:Core/Src/transmit.c ****         SendUART(huart, (char *)morseBuffer);
+ 394              		.loc 1 102 9 is_stmt 1 view .LVU101
+ 395 006e 0649     		ldr	r1, .L32+8
+ 396 0070 2846     		mov	r0, r5
+ 397 0072 FFF7FEFF 		bl	SendUART
+ 398              	.LVL36:
+ 103:Core/Src/transmit.c ****         morseIndex = 0;
+ 399              		.loc 1 103 9 view .LVU102
+ 103:Core/Src/transmit.c ****         morseIndex = 0;
+ 400              		.loc 1 103 20 is_stmt 0 view .LVU103
+ 401 0076 034B     		ldr	r3, .L32+4
+ 402 0078 0022     		movs	r2, #0
+ 403 007a 1A70     		strb	r2, [r3]
+ 404              		.loc 1 105 1 view .LVU104
+ 405 007c D6E7     		b	.L24
+ 406              	.L33:
+ 407 007e 00BF     		.align	2
+ 408              	.L32:
+ 409 0080 00000000 		.word	lastButtonActionTime
+ 410 0084 00000000 		.word	morseIndex
+ 411 0088 00000000 		.word	morseBuffer
+ 412              		.cfi_endproc
+ 413              	.LFE136:
+ 415              		.section	.bss.lastButtonActionTime,"aw",%nobits
+ 416              		.align	2
+ 419              	lastButtonActionTime:
+ 420 0000 00000000 		.space	4
+ARM GAS  /tmp/ccKr5asx.s 			page 11
+
+
+ 421              		.section	.bss.morseIndex,"aw",%nobits
+ 424              	morseIndex:
+ 425 0000 00       		.space	1
+ 426              		.section	.bss.morseBuffer,"aw",%nobits
+ 427              		.align	2
+ 430              	morseBuffer:
+ 431 0000 00000000 		.space	8
+ 431      00000000 
+ 432              		.section	.bss.buttonPressTime,"aw",%nobits
+ 433              		.align	2
+ 436              	buttonPressTime:
+ 437 0000 00000000 		.space	4
+ 438              		.text
+ 439              	.Letext0:
+ 440              		.file 2 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/machine/_default_types.h"
+ 441              		.file 3 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/sys/_stdint.h"
+ 442              		.file 4 "Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f427xx.h"
+ 443              		.file 5 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h"
+ 444              		.file 6 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h"
+ 445              		.file 7 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h"
+ 446              		.file 8 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h"
+ 447              		.file 9 "Core/Inc/global.h"
+ 448              		.file 10 "/opt/gcc-arm-none-eabi/arm-none-eabi/include/string.h"
+ 449              		.file 11 "Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h"
+ARM GAS  /tmp/ccKr5asx.s 			page 12
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 transmit.c
-     /tmp/cce3sDIa.s:21     .text.GetButtonState:00000000 $t
-     /tmp/cce3sDIa.s:27     .text.GetButtonState:00000000 GetButtonState
-     /tmp/cce3sDIa.s:121    .text.GetButtonState:00000050 $d
-     /tmp/cce3sDIa.s:401    .bss.buttonPressTime:00000000 buttonPressTime
-     /tmp/cce3sDIa.s:127    .rodata.SendUART.str1.4:00000000 $d
-     /tmp/cce3sDIa.s:131    .text.SendUART:00000000 $t
-     /tmp/cce3sDIa.s:137    .text.SendUART:00000000 SendUART
-     /tmp/cce3sDIa.s:224    .text.SendUART:0000004c $d
-     /tmp/cce3sDIa.s:230    .text.HandleTransmit:00000000 $t
-     /tmp/cce3sDIa.s:236    .text.HandleTransmit:00000000 HandleTransmit
-     /tmp/cce3sDIa.s:374    .text.HandleTransmit:00000080 $d
-     /tmp/cce3sDIa.s:384    .bss.lastButtonActionTime:00000000 lastButtonActionTime
-     /tmp/cce3sDIa.s:389    .bss.morseIndex:00000000 morseIndex
-     /tmp/cce3sDIa.s:395    .bss.morseBuffer:00000000 morseBuffer
-     /tmp/cce3sDIa.s:381    .bss.lastButtonActionTime:00000000 $d
-     /tmp/cce3sDIa.s:390    .bss.morseIndex:00000000 $d
-     /tmp/cce3sDIa.s:392    .bss.morseBuffer:00000000 $d
-     /tmp/cce3sDIa.s:398    .bss.buttonPressTime:00000000 $d
+     /tmp/ccKr5asx.s:21     .text.GetButtonState:00000000 $t
+     /tmp/ccKr5asx.s:27     .text.GetButtonState:00000000 GetButtonState
+     /tmp/ccKr5asx.s:121    .text.GetButtonState:00000050 $d
+     /tmp/ccKr5asx.s:436    .bss.buttonPressTime:00000000 buttonPressTime
+     /tmp/ccKr5asx.s:127    .rodata.SendUART.str1.4:00000000 $d
+     /tmp/ccKr5asx.s:131    .text.SendUART:00000000 $t
+     /tmp/ccKr5asx.s:137    .text.SendUART:00000000 SendUART
+     /tmp/ccKr5asx.s:258    .text.SendUART:00000070 $d
+     /tmp/ccKr5asx.s:265    .text.HandleTransmit:00000000 $t
+     /tmp/ccKr5asx.s:271    .text.HandleTransmit:00000000 HandleTransmit
+     /tmp/ccKr5asx.s:409    .text.HandleTransmit:00000080 $d
+     /tmp/ccKr5asx.s:419    .bss.lastButtonActionTime:00000000 lastButtonActionTime
+     /tmp/ccKr5asx.s:424    .bss.morseIndex:00000000 morseIndex
+     /tmp/ccKr5asx.s:430    .bss.morseBuffer:00000000 morseBuffer
+     /tmp/ccKr5asx.s:416    .bss.lastButtonActionTime:00000000 $d
+     /tmp/ccKr5asx.s:425    .bss.morseIndex:00000000 $d
+     /tmp/ccKr5asx.s:427    .bss.morseBuffer:00000000 $d
+     /tmp/ccKr5asx.s:433    .bss.buttonPressTime:00000000 $d
 
 UNDEFINED SYMBOLS
 HAL_GPIO_ReadPin
 HAL_GetTick
 strcmp
+HAL_UART_Transmit_IT
 HAL_UART_Transmit
 Morse
+irqEnabled

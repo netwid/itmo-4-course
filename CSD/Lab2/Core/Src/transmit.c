@@ -46,25 +46,34 @@ ButtonPressType GetButtonState(void)
     return BUTTON_NO_PRESS;
 }
 
-void SendUART(UART_HandleTypeDef *huart1, char *morseCode)
+void SendUART(UART_HandleTypeDef *huart, char *morseCode)
 {
     for (int i = 0; i < sizeof(Morse) / sizeof(Morse[0]); i++)
     {
         if (strcmp(morseCode, Morse[i]) == 0)
         {
             char letter = 'a' + i;
-            HAL_UART_Transmit(huart1, (uint8_t *)&letter, 1, HAL_MAX_DELAY);
+            if (irqEnabled) {
+                HAL_UART_Transmit_IT(huart, (uint8_t *)&letter, 1);
+            } else {
+                HAL_UART_Transmit(huart, (uint8_t *)&letter, 1, HAL_MAX_DELAY);
+            }
             return;
         }
     }
-    HAL_UART_Transmit(huart1, (uint8_t *)"?", 1, HAL_MAX_DELAY);
+
+    if (irqEnabled) {
+        HAL_UART_Transmit_IT(huart, (uint8_t *)"?", 1);
+    } else {
+        HAL_UART_Transmit(huart, (uint8_t *)"?", 1, HAL_MAX_DELAY);
+    }
 }
 
 static char morseBuffer[8];
 static uint8_t morseIndex = 0;
 static uint32_t lastButtonActionTime = 0;
 
-void HandleTransmit(UART_HandleTypeDef *huart1)
+void HandleTransmit(UART_HandleTypeDef *huart)
 {
     ButtonPressType pressType = GetButtonState();
     uint32_t currentTime = HAL_GetTick();
@@ -90,7 +99,7 @@ void HandleTransmit(UART_HandleTypeDef *huart1)
 
     if ((currentTime - lastButtonActionTime) > IDLE_TIMEOUT && morseIndex > 0)
     {
-        SendUART(huart1, (char *)morseBuffer);
+        SendUART(huart, (char *)morseBuffer);
         morseIndex = 0;
     }
 }
