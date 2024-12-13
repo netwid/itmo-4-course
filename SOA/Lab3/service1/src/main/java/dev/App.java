@@ -20,7 +20,6 @@ public class App {
         tomcat.setBaseDir(createTempDir());
         tomcat.setPort(PORT);
 
-        // Настраиваем SSL Connector
         Connector httpsConnector = createSslConnector();
         tomcat.getService().addConnector(httpsConnector);
         tomcat.setConnector(httpsConnector);
@@ -40,21 +39,17 @@ public class App {
 
         connector.setProperty("SSLEnabled", "true");
 
-        // Создаем SSLHostConfig
         SSLHostConfig sslHostConfig = new SSLHostConfig();
         sslHostConfig.setHostName("_default_");
         sslHostConfig.setProtocols("TLSv1.2,TLSv1.3");
 
-        // Создаем SSLHostConfigCertificate и настраиваем его
         SSLHostConfigCertificate certificate = new SSLHostConfigCertificate(sslHostConfig, SSLHostConfigCertificate.Type.RSA);
         certificate.setCertificateKeystoreFile(KEYSTORE_PATH);
         certificate.setCertificateKeystorePassword(KEYSTORE_PASSWORD);
         certificate.setCertificateKeyAlias(KEY_ALIAS);
 
-        // Добавляем сертификат к SSLHostConfig
         sslHostConfig.addCertificate(certificate);
 
-        // Добавляем SSLHostConfig к коннектору
         connector.addSslHostConfig(sslHostConfig);
 
         return connector;

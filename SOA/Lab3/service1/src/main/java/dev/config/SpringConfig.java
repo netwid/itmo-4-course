@@ -26,13 +26,6 @@ public class SpringConfig implements WebMvcConfigurer {
         return new MappingJackson2XmlHttpMessageConverter();
     }
 
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-//        MappingJackson2XmlHttpMessageConverter messageConverter = new MappingJackson2XmlHttpMessageConverter();
-//        messageConverter.setObjectMapper(new JsonMapper());
-//        messageConverter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON));
-//        converters.add(messageConverter);
-//    }
 
     @Bean
     public ModelMapper modelMapper() {
