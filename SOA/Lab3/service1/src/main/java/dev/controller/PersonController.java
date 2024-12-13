@@ -17,14 +17,12 @@ public class PersonController {
     @Autowired
     PersonService service;
 
-    // Добавить новый элемент в коллекцию
     @PostMapping
     public ResponseEntity<PersonDTO> savePerson(@RequestBody PersonDTO personDTO) {
         PersonDTO savedPerson = service.savePerson(personDTO);
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
-    // Поиск элементов коллекции с фильтрацией и сортировкой
     @PostMapping("/search")
     public ResponseEntity<PersonsResponse> searchPersons(@RequestBody SearchRequest searchRequest) {
         System.out.println(searchRequest);
@@ -32,28 +30,24 @@ public class PersonController {
         return ResponseEntity.ok(response);
     }
 
-    // Получить элемент по ID
     @GetMapping("/{id}")
     public ResponseEntity<PersonDTO> getPersonById(@PathVariable("id") Long id) {
         PersonDTO person = service.getPersonById(id);
         return person != null ? ResponseEntity.ok(person) : ResponseEntity.notFound().build();
     }
 
-    // Обновить элемент по ID
     @PutMapping("/{id}")
     public ResponseEntity<PersonDTO> updatePerson(@PathVariable("id") Long id, @RequestBody PersonDTO personDTO) {
         PersonDTO updatedPerson = service.updatePerson(id, personDTO);
         return updatedPerson != null ? ResponseEntity.ok(updatedPerson) : ResponseEntity.notFound().build();
     }
 
-    // Удалить элемент по ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerson(@PathVariable("id") Long id) {
         boolean deleted = service.deletePerson(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
-    // Рассчитать среднее значение поля height
     @GetMapping("/average-height")
     public ResponseEntity<AverageHeightResponse> getAverageHeight() {
         Double averageHeight = service.getAverageHeight();
@@ -61,8 +55,6 @@ public class PersonController {
         return ResponseEntity.ok(response);
     }
 
-
-    // Получить количество элементов по location
     @GetMapping("/count-by-location")
     public ResponseEntity<CountResponse> countByLocation(
             @RequestParam("x") Integer x,
@@ -74,8 +66,6 @@ public class PersonController {
         return ResponseEntity.ok(response);
     }
 
-
-    // Получить элементы с nationality больше заданного
     @GetMapping("/nationality-greater-than")
     public ResponseEntity<PersonsResponse> getPersonsByNationalityGreaterThan(
             @RequestParam("nationality") String nationality,

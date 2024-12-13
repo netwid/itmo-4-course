@@ -21,7 +21,6 @@ public class PersonFilter {
     private CoordinatesFilter coordinates;
     private LocationFilter location;
     private CreationDateFilter creationDate;
-    // Дополнительные поля можно добавить аналогично
 
     @Getter
     @Setter

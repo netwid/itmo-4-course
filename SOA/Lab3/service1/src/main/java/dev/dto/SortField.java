@@ -9,5 +9,5 @@ import lombok.ToString;
 @ToString
 public class SortField {
     private String name;
-    private String order; // "asc" или "desc"
+    private String order;
 }

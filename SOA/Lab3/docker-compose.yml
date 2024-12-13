@@ -18,7 +18,6 @@ services:
       lab:
         ipv4_address: 172.20.0.2
 
-
   postgres:
     image: postgres:16
     restart: always
@@ -36,14 +35,34 @@ services:
     build:
       context: service2/.
     ports:
-#      - "8080:8080"
       - "4848:4848"
       - "8444:8444"
+    depends_on:
+      - postgres
+      - config-server
 #    volumes:
 #      - ./service2/build/libs:/opt/payara/deployments # Добавляем том, чтобы WAR файл можно было обновлять
     networks:
       lab:
         ipv4_address: 172.20.0.4
+
+  config-server:
+    build:
+      context: config-server/.
+    ports:
+      - '8888:8888'
+    networks:
+      lab:
+        ipv4_address: 172.20.0.25
+
+  eureka-server:
+    build:
+      context: eureka-server/.
+    ports:
+      - '8761:8761'
+    networks:
+      lab:
+        ipv4_address: 172.20.0.26
 
 #volumes:
 #  db-data:

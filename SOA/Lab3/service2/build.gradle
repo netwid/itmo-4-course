@@ -23,7 +23,9 @@ dependencies {
     implementation 'org.springframework:spring-beans:6.1.14'
     implementation 'org.springframework:spring-context:6.1.14'
 
-    implementation 'org.springframework:spring-webmvc:6.1.14'
+    implementation 'org.springframework:spring-webmvc:6.2.1'
+
+    implementation 'org.springframework.cloud:spring-cloud-config-client:4.2.0'
 
     providedCompile 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
