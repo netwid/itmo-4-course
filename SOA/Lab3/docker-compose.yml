@@ -7,7 +7,8 @@ networks:
         - subnet:  172.20.0.0/24
 
 services:
-  service1:
+  service1-1:
+    container_name: service1-1
     build:
       context: service1/.
     ports:
@@ -17,6 +18,32 @@ services:
     networks:
       lab:
         ipv4_address: 172.20.0.2
+
+  service1-2:
+    container_name: service1-2
+    build:
+      context: service1/.
+    ports:
+      - '8453:8443'
+    depends_on:
+      - postgres
+    networks:
+      lab:
+        ipv4_address: 172.20.0.12
+
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    ports:
+      - "8080:8080"
+    depends_on:
+      - service1-1
+      - service1-2
+    networks:
+      lab:
+        ipv4_address: 172.20.0.102
 
   postgres:
     image: postgres:16
