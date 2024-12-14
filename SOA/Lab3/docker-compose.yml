@@ -137,5 +137,14 @@ services:
       lab:
         ipv4_address: 172.20.0.26
 
+  zuul-proxy:
+    build:
+      context: zuul-proxy/.
+    ports:
+      - '1888:1888'
+    networks:
+      lab:
+        ipv4_address: 172.20.0.30
+
 #volumes:
 #  db-data:

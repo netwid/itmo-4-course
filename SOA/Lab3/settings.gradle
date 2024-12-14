@@ -3,4 +3,5 @@ include 'service1'
 include 'service2'
 include 'config-server'
 include 'eureka-server'
+include 'zuul-proxy'
 

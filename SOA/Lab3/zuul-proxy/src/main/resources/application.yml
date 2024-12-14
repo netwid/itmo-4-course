@@ -1,0 +1,33 @@
+server:
+  port: 1888
+
+spring:
+  application:
+    name: zuul-server
+
+zuul:
+  sslHostnameValidationEnabled: false
+  routes:
+#    service1:
+#      path: /service1/**
+#      url: http://haproxy-host/service1
+    service2:
+      path: /service2/**
+      url: https://172.20.0.4:8444
+#      serviceId: service2
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://172.20.0.26:8761/eureka/
+    registerWithEureka: true
+    fetch-registry: true
+  instance:
+    preferIpAddress: true
+
+logging:
+  level:
+    com.netflix.loadbalancer: DEBUG
+    org.springframework.cloud.netflix.zuul: DEBUG
+    com.netflix.discovery: DEBUG
