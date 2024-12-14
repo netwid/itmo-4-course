@@ -18,6 +18,8 @@ services:
     networks:
       lab:
         ipv4_address: 172.20.0.2
+    environment:
+      KEY_ALIAS: service1-1
 
   service1-2:
     container_name: service1-2
@@ -30,6 +32,8 @@ services:
     networks:
       lab:
         ipv4_address: 172.20.0.12
+    environment:
+      KEY_ALIAS: service1-2
 
   haproxy:
     image: haproxy:latest
@@ -74,6 +78,8 @@ services:
     networks:
       lab:
         ipv4_address: 172.20.0.4
+    environment:
+      KEY_ALIAS: service2-1
 
   service2-2:
     build:
@@ -88,6 +94,8 @@ services:
     networks:
       lab:
         ipv4_address: 172.20.0.5
+    environment:
+      KEY_ALIAS: service2-2
 
   config-server:
     build:
