@@ -1,2 +1,0 @@
-<beans xmlns="https://jakarta.ee/xml/ns/jakartaee" version="2.0" bean-discovery-mode="all">
-</beans>

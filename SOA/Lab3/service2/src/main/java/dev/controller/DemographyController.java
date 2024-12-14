@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import dev.dto.Percentage;
 import dev.dto.PersonsResponseDTO;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class DemographyController {
+    @Value("{query.url}")
+    String url;
     private final RestTemplate restTemplate = new RestTemplate();
 
     @GetMapping("/demography/hair-color/{color}/percentage")

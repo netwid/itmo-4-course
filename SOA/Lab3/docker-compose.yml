@@ -31,20 +31,36 @@ services:
       lab:
         ipv4_address: 172.20.0.3
 
-  service2:
+  service2-1:
     build:
       context: service2/.
     ports:
       - "4848:4848"
       - "8444:8444"
     depends_on:
-      - postgres
-      - config-server
-#    volumes:
-#      - ./service2/build/libs:/opt/payara/deployments # Добавляем том, чтобы WAR файл можно было обновлять
+      postgres:
+        condition: service_started
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
     networks:
       lab:
         ipv4_address: 172.20.0.4
+
+  service2-2:
+    build:
+      context: service2/.
+    depends_on:
+      postgres:
+        condition: service_started
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      lab:
+        ipv4_address: 172.20.0.5
 
   config-server:
     build:
@@ -54,6 +70,12 @@ services:
     networks:
       lab:
         ipv4_address: 172.20.0.25
+    healthcheck:
+      test: echo true
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
 
   eureka-server:
     build:

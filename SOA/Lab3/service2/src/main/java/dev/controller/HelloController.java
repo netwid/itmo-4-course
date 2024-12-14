@@ -17,11 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 @RestController
 public class HelloController {
-    @Value("${query.url:Default Value}")
-    private String url;
-
     @GetMapping("/hello")
     public String sayHello() {
-        return url;
+        return "Hello";
     }
 }
