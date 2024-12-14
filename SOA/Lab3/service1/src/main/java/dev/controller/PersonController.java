@@ -8,10 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/persons")
+@RequestMapping(value = "/persons", consumes = "application/xml", produces = "application/xml")
 public class PersonController {
 
     @Autowired
@@ -23,7 +22,7 @@ public class PersonController {
         return new ResponseEntity<>(savedPerson, HttpStatus.CREATED);
     }
 
-    @PostMapping("/search")
+    @PostMapping(value = "/search")
     public ResponseEntity<PersonsResponse> searchPersons(@RequestBody SearchRequest searchRequest) {
         System.out.println(searchRequest);
         PersonsResponse response = service.searchPersons(searchRequest);

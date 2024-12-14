@@ -2,11 +2,8 @@ FROM gradle:8.8-jdk17 as builder
 
 WORKDIR /app
 
-#COPY ../build.gradle ./
 COPY . .
-RUN gradle shadowJar
-
-#RUN gradle clean build -x test --no-daemon
+RUN gradle bootJar
 
 FROM openjdk:17-jdk-slim
 
