@@ -1,14 +1,14 @@
 server:
-  port: 8443
-  ssl:
-    enabled: true
-    key-store: classpath:service1.jks
-    key-store-password: changeit
-    key-alias: ${KEY_ALIAS:service1}
-    protocol: TLS
-    enabled-protocols:
-      - TLSv1.2
-      - TLSv1.3
+  port: ${PORT:8443}
+  # ssl:
+  #   enabled: true
+  #   key-store: classpath:service1.jks
+  #   key-store-password: changeit
+  #   key-alias: ${KEY_ALIAS:service1}
+  #   protocol: TLS
+  #   enabled-protocols:
+  #     - TLSv1.2
+  #     - TLSv1.3
 
 spring:
   datasource:
@@ -35,4 +35,4 @@ spring:
         health-check-path: /actuator/health
         health-check-interval: 10s
         health-check-tls-skip-verify: true
-        scheme: https
+        scheme: http

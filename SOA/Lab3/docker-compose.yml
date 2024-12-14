@@ -15,25 +15,30 @@ services:
       - '8443:8443'
     depends_on:
       - postgres
+      - consul
     networks:
       lab:
         ipv4_address: 172.20.0.2
     environment:
       KEY_ALIAS: service1-1
+      PORT: 8443
 
   service1-2:
     container_name: service1-2
     build:
       context: service1/.
     ports:
-      - '8453:8443'
+      - '8453:8453'
     depends_on:
       - postgres
+      - consul
+      
     networks:
       lab:
         ipv4_address: 172.20.0.12
     environment:
       KEY_ALIAS: service1-2
+      PORT: 8453
 
   haproxy:
     image: haproxy:latest
@@ -48,6 +53,17 @@ services:
     networks:
       lab:
         ipv4_address: 172.20.0.102
+
+  consul:
+    image: consul:1.14
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+    command: agent -server -ui -node=consul-1 -bootstrap-expect=2 -client=0.0.0.0
+    networks:
+      lab:
+        ipv4_address: 172.20.0.202
+
 
   postgres:
     image: postgres:16
