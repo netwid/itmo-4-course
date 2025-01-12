@@ -6,21 +6,21 @@ spring:
     name: zuul-server
 
 zuul:
-  sslHostnameValidationEnabled: false
   routes:
-#    service1:
-#      path: /service1/**
-#      url: http://haproxy-host/service1
+    service1:
+      path: /service1/**
+      url: http://172.20.0.102:8080/
+      stripPrefix: true
     service2:
       path: /service2/**
-      url: https://172.20.0.4:8444
-#      serviceId: service2
+      serviceId: service2
+      stripPrefix: true
 
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://172.20.0.26:8761/eureka/
+      defaultZone: http://eureka-server:8761/eureka
     registerWithEureka: true
     fetch-registry: true
   instance:
@@ -31,3 +31,14 @@ logging:
     com.netflix.loadbalancer: DEBUG
     org.springframework.cloud.netflix.zuul: DEBUG
     com.netflix.discovery: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+service2:
+  ribbon:
+    eureka:
+      enabled: true

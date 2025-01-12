@@ -145,6 +145,9 @@ services:
     networks:
       lab:
         ipv4_address: 172.20.0.30
+    depends_on:
+      - eureka-server
+      - haproxy
 
 #volumes:
 #  db-data:
