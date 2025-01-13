@@ -1,9 +1,12 @@
 server:
   port: 1888
   ssl:
+    enabled: true
+    key-store: 'classpath:zuul.jks'
+    key-store-password: changeit
     trust-store: 'classpath:zuul.jks'
     trust-store-password: changeit
-    key-alias: ${KEY_ALIAS:zuul}
+    key-alias: zuul
 
 spring:
   application:
