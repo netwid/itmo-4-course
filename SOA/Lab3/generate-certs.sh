@@ -49,6 +49,19 @@ keytool -import -trustcacerts -alias rootCA -file rootCA.crt -keystore ${SERVICE
 keytool -import -trustcacerts -alias service2-1 -file ${SERVICE2_PATH}/service2-1.crt -keystore ${SERVICE2_PATH}/service2.jks -storepass changeit
 keytool -import -trustcacerts -alias service2-2 -file ${SERVICE2_PATH}/service2-2.crt -keystore ${SERVICE2_PATH}/service2.jks -storepass changeit
 
+# zuul
+ZUUL_PATH=zuul-proxy/src/main/resources
+keytool -genkeypair -alias zuul -keyalg RSA -keysize 2048 -validity 365 -keystore ${ZUUL_PATH}/zuul.jks \
+  -dname "CN=172.20.0.30, OU=MyOrgUnit, O=MyOrg, L=MyCity, S=MyState, C=MyCountry" -storepass changeit -keypass changeit \
+  -ext "san=ip:172.20.0.30,dns:localhost,dns:lab3.soa"
+keytool -certreq -alias zuul -file ${ZUUL_PATH}/zuul.csr -keystore ${ZUUL_PATH}/zuul.jks -storepass changeit \
+  -ext "san=ip:172.20.0.30,dns:localhost,dns:lab3.soa"
+keytool -gencert -alias rootCA -infile ${ZUUL_PATH}/zuul.csr -outfile ${ZUUL_PATH}/zuul.crt \
+  -keystore rootCA.jks -storepass changeit -validity 365 \
+  -ext "san=ip:172.20.0.30,dns:localhost,dns:lab3.soa"
+keytool -import -trustcacerts -alias rootCA -file rootCA.crt -keystore ${ZUUL_PATH}/zuul.jks -storepass changeit
+keytool -import -trustcacerts -alias zuul -file ${ZUUL_PATH}/zuul.crt -keystore ${ZUUL_PATH}/zuul.jks -storepass changeit
+
 
 #keytool -keysize 2048 -genkey -alias service1 -keyalg RSA -dname "CN=172.20.0.2,O=Myorganization,L=city,S=state,C=country" \
 #  -keypass changeit -storepass changeit -keystore service1/src/main/resources/keystore.jks

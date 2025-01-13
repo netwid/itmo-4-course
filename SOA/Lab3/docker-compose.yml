@@ -11,8 +11,6 @@ services:
     container_name: service1-1
     build:
       context: service1/.
-    ports:
-      - '8443:8443'
     depends_on:
       - postgres
       - consul
@@ -27,8 +25,6 @@ services:
     container_name: service1-2
     build:
       context: service1/.
-    ports:
-      - '8453:8453'
     depends_on:
       - postgres
       - consul
@@ -45,8 +41,6 @@ services:
     container_name: haproxy
     volumes:
       - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-    ports:
-      - "8080:8080"
     depends_on:
       - service1-1
       - service1-2
@@ -56,9 +50,6 @@ services:
 
   consul:
     image: consul:1.14
-    ports:
-      - "8500:8500"
-      - "8600:8600/udp"
     command: agent -server -ui -node=consul-1 -bootstrap-expect=1 -client=0.0.0.0
     networks:
       lab:
@@ -68,8 +59,6 @@ services:
   postgres:
     image: postgres:16
     restart: always
-    ports:
-      - '5432:5432'
     environment:
       POSTGRES_PASSWORD: postgres
 #    volumes:
@@ -81,9 +70,6 @@ services:
   service2-1:
     build:
       context: service2/.
-    ports:
-      - "4848:4848"
-      - "8444:8444"
     depends_on:
       postgres:
         condition: service_started
@@ -116,8 +102,6 @@ services:
   config-server:
     build:
       context: config-server/.
-    ports:
-      - '8888:8888'
     networks:
       lab:
         ipv4_address: 172.20.0.25
@@ -131,8 +115,6 @@ services:
   eureka-server:
     build:
       context: eureka-server/.
-    ports:
-      - '8761:8761'
     networks:
       lab:
         ipv4_address: 172.20.0.26
