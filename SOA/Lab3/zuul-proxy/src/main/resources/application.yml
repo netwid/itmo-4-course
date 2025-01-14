@@ -15,13 +15,13 @@ spring:
 zuul:
   routes:
     service1:
-      path: /service1/**
+      path: /persons/**
       url: http://172.20.0.102:8080/
-      stripPrefix: true
+      stripPrefix: false
     service2:
-      path: /service2/**
+      path: /demography/**
       serviceId: service2
-      stripPrefix: true
+      stripPrefix: false
 
 
 eureka:

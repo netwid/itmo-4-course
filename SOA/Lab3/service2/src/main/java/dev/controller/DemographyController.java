@@ -53,7 +53,7 @@ public class DemographyController {
     }
 
     private int query(String query) {
-        String url = "https://172.20.0.2:8443/persons/search";
+        String url = "http://172.20.0.2:8443/persons/search";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_XML);
