@@ -1,0 +1,60 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.4.0'
+    id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'dev'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly 'org.projectlombok:lombok:1.18.32'
+    annotationProcessor 'org.projectlombok:lombok:1.18.32'
+    testCompileOnly 'org.projectlombok:lombok:1.18.32'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.32'
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+//    implementation 'org.springframework:spring-core:6.1.14'
+//    implementation 'org.springframework:spring-beans:6.1.14'
+//    implementation 'org.springframework:spring-context:6.1.14'
+
+//    implementation 'org.springframework:spring-webmvc:6.2.1'
+
+
+
+//    providedCompile 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.0'
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
+    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.2'
+
+//    implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+//    implementation 'org.apache.httpcomponents.client5:httpclient5:5.2'
+//    implementation 'org.apache.httpcomponents.core5:httpcore5:5.2'
+//    implementation 'org.apache.httpcomponents.client5:httpclient5:5.4.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+//    implementation 'org.springframework.cloud:spring-cloud-config-client:4.2.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config:4.2.0'
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+
+//    implementation 'fish.payara.extras:payara-embedded-all:6.2024.10'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:2024.0.0")
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

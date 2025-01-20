@@ -1,0 +1,135 @@
+networks:
+  lab: # here we set the network name
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet:  172.20.0.0/24
+
+services:
+  service1-1:
+    container_name: service1-1
+    build:
+      context: service1/.
+    depends_on:
+      - postgres
+      - consul
+    networks:
+      lab:
+        ipv4_address: 172.20.0.2
+    environment:
+      KEY_ALIAS: service1-1
+      PORT: 8443
+
+  service1-2:
+    container_name: service1-2
+    build:
+      context: service1/.
+    depends_on:
+      - postgres
+      - consul
+      
+    networks:
+      lab:
+        ipv4_address: 172.20.0.12
+    environment:
+      KEY_ALIAS: service1-2
+      PORT: 8453
+
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - service1-1
+      - service1-2
+    networks:
+      lab:
+        ipv4_address: 172.20.0.102
+
+  consul:
+    image: consul:1.14
+    command: agent -server -ui -node=consul-1 -bootstrap-expect=1 -client=0.0.0.0
+    networks:
+      lab:
+        ipv4_address: 172.20.0.202
+
+
+  postgres:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: postgres
+#    volumes:
+#      - db-data:/var/lib/postgresql/data
+    networks:
+      lab:
+        ipv4_address: 172.20.0.3
+
+  service2-1:
+    build:
+      context: service2/.
+    depends_on:
+      postgres:
+        condition: service_started
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      lab:
+        ipv4_address: 172.20.0.4
+    environment:
+      KEY_ALIAS: service2-1
+
+  service2-2:
+    build:
+      context: service2/.
+    depends_on:
+      postgres:
+        condition: service_started
+      config-server:
+        condition: service_healthy
+      eureka-server:
+        condition: service_started
+    networks:
+      lab:
+        ipv4_address: 172.20.0.5
+    environment:
+      KEY_ALIAS: service2-2
+
+  config-server:
+    build:
+      context: config-server/.
+    networks:
+      lab:
+        ipv4_address: 172.20.0.25
+    healthcheck:
+      test: echo true
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  eureka-server:
+    build:
+      context: eureka-server/.
+    networks:
+      lab:
+        ipv4_address: 172.20.0.26
+
+  zuul-proxy:
+    build:
+      context: zuul-proxy/.
+    ports:
+      - '1888:1888'
+    networks:
+      lab:
+        ipv4_address: 172.20.0.30
+    depends_on:
+      - eureka-server
+      - haproxy
+
+#volumes:
+#  db-data:

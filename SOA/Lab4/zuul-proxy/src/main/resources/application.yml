@@ -1,0 +1,51 @@
+server:
+  port: 1888
+  ssl:
+    enabled: true
+    key-store: 'classpath:zuul.jks'
+    key-store-password: changeit
+    trust-store: 'classpath:zuul.jks'
+    trust-store-password: changeit
+    key-alias: zuul
+
+spring:
+  application:
+    name: zuul-server
+
+zuul:
+  routes:
+    service1:
+      path: /persons/**
+      url: http://172.20.0.102:8080/
+      stripPrefix: false
+    service2:
+      path: /demography/**
+      serviceId: service2
+      stripPrefix: false
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka
+    registerWithEureka: true
+    fetch-registry: true
+  instance:
+    preferIpAddress: true
+
+logging:
+  level:
+    com.netflix.loadbalancer: DEBUG
+    org.springframework.cloud.netflix.zuul: DEBUG
+    com.netflix.discovery: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+service2:
+  ribbon:
+    eureka:
+      enabled: true
