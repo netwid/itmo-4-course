@@ -11,6 +11,7 @@ services:
     container_name: service1-1
     build:
       context: service1/.
+    image: lab4-service1
     depends_on:
       - postgres
       - consul
@@ -23,8 +24,7 @@ services:
 
   service1-2:
     container_name: service1-2
-    build:
-      context: service1/.
+    image: lab4-service1
     depends_on:
       - postgres
       - consul
@@ -70,6 +70,7 @@ services:
   service2-1:
     build:
       context: service2/.
+    image: lab4-service2
     depends_on:
       postgres:
         condition: service_started
@@ -84,8 +85,7 @@ services:
       KEY_ALIAS: service2-1
 
   service2-2:
-    build:
-      context: service2/.
+    image: lab4-service2
     depends_on:
       postgres:
         condition: service_started

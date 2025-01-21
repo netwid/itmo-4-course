@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://se/ifmo/ru/service2/demography">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:eyeColorRequest>
+            <gs:eyeColor>BLUE</gs:eyeColor>
+        </gs:eyeColorRequest>
+    </soapenv:Body>
+</soapenv:Envelope>

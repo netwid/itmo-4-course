@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://se/ifmo/ru/service2/demography"
+           targetNamespace="http://se/ifmo/ru/service2/demography" elementFormDefault="qualified">
+
+    <xs:element name="helloRequest"/>
+
+    <xs:element name="helloResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="string" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="hairColorRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="hairColor" type="tns:HairColorEnum"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="eyeColorRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="eyeColor" type="tns:EyeColorEnum"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="percentageResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="percentage" type="xs:int"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Enums -->
+
+    <xs:simpleType name="HairColorEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BLONDE"/>
+            <xs:enumeration value="RED"/>
+            <xs:enumeration value="BLACK"/>
+            <xs:enumeration value="GRAY"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EyeColorEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="BLUE"/>
+            <xs:enumeration value="BROWN"/>
+            <xs:enumeration value="GREEN"/>
+            <xs:enumeration value="GRAY"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

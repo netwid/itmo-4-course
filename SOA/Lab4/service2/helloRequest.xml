@@ -1,0 +1,8 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://se/ifmo/ru/service2/demography">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:helloRequest>
+        </gs:helloRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
