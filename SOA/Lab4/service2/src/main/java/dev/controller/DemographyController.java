@@ -63,27 +63,26 @@ public class DemographyController {
     }
 
     private int query(String query) {
-        return 1;
-//        String url = "http://172.20.0.2:8443/persons/search";
-//
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.APPLICATION_XML);
-//
-//        HttpEntity<String> entity = new HttpEntity<>("<?xml version=\"1.0\" encoding=\"UTF-8\"?><searchRequest>" +
-//                query + "<page>1</page><size>1</size></searchRequest>", headers);
-//
-//        String response = restTemplate.postForObject(url, entity, String.class);
-//
-//        XmlMapper xmlMapper = new XmlMapper();
-//        xmlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//
-//        PersonsResponseDTO person;
-//        try {
-//            person = xmlMapper.readValue(response, PersonsResponseDTO.class);
-//        } catch (JsonProcessingException e) {
-//            return 0;
-//        }
-//
-//        return person.getTotalResults();
+        String url = "http://172.20.0.2:8443/persons/search";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_XML);
+
+        HttpEntity<String> entity = new HttpEntity<>("<?xml version=\"1.0\" encoding=\"UTF-8\"?><searchRequest>" +
+                query + "<page>1</page><size>1</size></searchRequest>", headers);
+
+        String response = restTemplate.postForObject(url, entity, String.class);
+
+        XmlMapper xmlMapper = new XmlMapper();
+        xmlMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        PersonsResponseDTO person;
+        try {
+            person = xmlMapper.readValue(response, PersonsResponseDTO.class);
+        } catch (JsonProcessingException e) {
+            return 0;
+        }
+
+        return person.getTotalResults();
     }
 }
