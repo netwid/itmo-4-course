@@ -20,7 +20,7 @@ zuul:
       stripPrefix: false
     service2:
       path: /demography/**
-      serviceId: service2
+      url: http://172.20.0.40:8080/
       stripPrefix: false
 
 
